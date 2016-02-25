@@ -9,9 +9,9 @@ The files in these folders are written in either reStructuredText, MarkDown, or 
 
 We strongly encourage you to create an example and post it in this collection.  The procedure is straightforward and can be explained in just a few lines:
 
-1.  Fork this repository to your own Github account using the 'Fork' button on the Github website.  This will let you make edits and additions to the repository without needing our permission.
+1.  Fork this repository to your own Github account using the 'Fork' button on the Github website.  This will let you make edits and additions to the repository without needing write permission.
 
-2. Create your example using the instructions below, and push your changes to your forked version of the repository.  You can edit and push as many times and needed to check how the document looks when Github renders it.
+2. Create your example using the instructions below, and push your changes to your forked version of the repository.  You can edit and push as many times as needed to check how the document looks when Github renders it.
 
 3. Make a pull request using the Github website by going the 'Pull Requests' tab on your forked repository, and then selecting the 'New pull request' button.
 
