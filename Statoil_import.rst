@@ -2,7 +2,7 @@
 Statoil Import Example
 ################################################################################
 
-..code-block:: python
+.. code-block:: python
 
     >>> import scipy as sp
     >>> import OpenPNM as op
@@ -14,7 +14,7 @@ Import Statoil 'dat' Files
 
 The following assumes that the folder containing the 'dat' files is in the same directory as this script:
 
-..code-block:: python
+.. code-block:: python
 
     >>> path = r"ICL-Sandstone(Berea)"
     >>> pn = op.Utilities.IO.Statoil.load(path=path, prefix='Berea')
