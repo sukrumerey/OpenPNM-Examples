@@ -94,11 +94,11 @@ Since we've added two new pores and many new throats, the network is now incompl
 .. code-block:: python
 
     print(pn)
-    ------------------------------------------------------------
+    # ------------------------------------------------------------
     OpenPNM.Network.GenericNetwork: 	berea
-    ------------------------------------------------------------
+    # ------------------------------------------------------------
     #     Properties                          Valid Values
-    ------------------------------------------------------------
+    # ------------------------------------------------------------
     1     pore.coords                          6300 / 6300
     2     pore.radius                          6298 / 6300
     3     pore.shape_factor                    6298 / 6300
@@ -109,9 +109,9 @@ Since we've added two new pores and many new throats, the network is now incompl
     8     throat.shape_factor                 12098 / 12545
     9     throat.total_length                 12098 / 12545
     10    throat.volume                       12098 / 12545
-    ------------------------------------------------------------
+    # ------------------------------------------------------------
     #     Labels                              Assigned Locations
-    ------------------------------------------------------------
+    # ------------------------------------------------------------
     1     pore.all                            6300
     2     pore.clay_volume                    0
     3     pore.inlet_reservoir                1
@@ -120,7 +120,7 @@ Since we've added two new pores and many new throats, the network is now incompl
     6     pore.outlets                        246
     7     throat.all                          12545
     8     throat.clay_volume                  0
-    ------------------------------------------------------------
+    # ------------------------------------------------------------
 
 As can be seen, properties such as 'pore.radius' and 'thorat.length' have fewer valid values than 'pore.coords' and 'throats.conns', which are complete.  Let's manually add properties to these pores and throats:
 
