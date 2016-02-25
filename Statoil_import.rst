@@ -32,7 +32,7 @@ At this point, the network can be visualized in Paraview.  A suitable '.vtp' fil
 
 The resulting network is shown below:
 
-.. image:: http://imgur.com/a/Cl6cA
+.. image:: http://imgur.com/771T36M
 
 ================================================================================
 Adding Boundary Pores
