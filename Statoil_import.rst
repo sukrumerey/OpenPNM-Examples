@@ -34,11 +34,7 @@ Adding Boundary Pores
 
 Upon importing these networks, OpenPNM does perform a 'optimizations' to make the network compatible.  The main problem is that the original network contains a large number of throats connecting actual internal pores to fictitious 'reservoir' pores.  OpenPNM strips away all these throats since 'headless throats' break the graph theory representation, but labels the real internal pores as either 'inlet' or 'outlet' if there were connected to one of these fictitious reservoirs.
 
---------------------------------------------------------------------------------
-Reading Reservoir Pores
---------------------------------------------------------------------------------
-
-Identify inlet pores by their label
+To re-add boundary pores, we add a new pore to each end of the network, then connect them to the pores labelled 'inlet' and 'outlet'.  Identify inlet pores by their label:
 
 .. code-block:: python
 
@@ -88,16 +84,21 @@ Now repeat for the outlet reservoir pore:
     >>> pn['pore.coords'][-1, offset_dim] = pn['pore.coords'][-1, offset_dim] + \
                                             extents[offset_dim]
 
-Since we've added two new pores, the network is now incomplete because the reservoir pores and the throats connecting them have no physical properties. This can be observed by printing the network:
+The new reservoir pores can now be seen in Paraview, by exporting a 'vtp' file:
+.. code-block:: python
+
+    >>> op.export_data(network=pn, filename='imported_statoil_with_reservoirs')
+
+Since we've added two new pores and many new throats, the network is now incomplete because they have no physical properties. This can be observed by printing the network:
 
 .. code-block:: python
 
     print(pn)
-    # ------------------------------------------------------------
+    ------------------------------------------------------------
     OpenPNM.Network.GenericNetwork: 	berea
-    # ------------------------------------------------------------
+    ------------------------------------------------------------
     #     Properties                          Valid Values
-    # ------------------------------------------------------------
+    ------------------------------------------------------------
     1     pore.coords                          6300 / 6300
     2     pore.radius                          6298 / 6300
     3     pore.shape_factor                    6298 / 6300
@@ -108,9 +109,9 @@ Since we've added two new pores, the network is now incomplete because the reser
     8     throat.shape_factor                 12098 / 12545
     9     throat.total_length                 12098 / 12545
     10    throat.volume                       12098 / 12545
-    # ------------------------------------------------------------
+    ------------------------------------------------------------
     #     Labels                              Assigned Locations
-    # ------------------------------------------------------------
+    ------------------------------------------------------------
     1     pore.all                            6300
     2     pore.clay_volume                    0
     3     pore.inlet_reservoir                1
@@ -119,15 +120,19 @@ Since we've added two new pores, the network is now incomplete because the reser
     6     pore.outlets                        246
     7     throat.all                          12545
     8     throat.clay_volume                  0
-    # ------------------------------------------------------------
+    ------------------------------------------------------------
 
-
-The new reservoir pores can now be seen in Paraview, by exporting a 'vtp' file:
+As can be seen, properties such as 'pore.radius' and 'thorat.length' have fewer valid values than 'pore.coords' and 'throats.conns', which are complete.  Let's manually add properties to these pores and throats:
 
 .. code-block:: python
 
-    >>> op.export_data(network=pn, filename='imported_statoil_with_reservoirs')
-
---------------------------------------------------------------------------------
-Adding OpenPNM-Style Inlet and Outlet Boundary Pores
---------------------------------------------------------------------------------
+    >>> P = pn.pores('*reservoir')  # Use wildcard to find added reservoir pores
+    >>> pn['pore.radius'][P] = 0
+    >>> pn['pore.volume'][P] = 0
+    >>> pn['pore.shape_factor'][P] = 0
+    >>> T = pn.throat('*reservoir')  # Find throats to reservoir pores
+    >>> pn['throat.length'][T] = 0
+    >>> pn['throat.radius'][T] = 100  # A large number to give low resistance
+    >>> pn['throat.shape_factor'][T] = 0
+    >>> pn['throat.total_length'][T] = 0
+    >>> pn['throat.volume'][T] = 0
