@@ -2,6 +2,8 @@
 Statoil Import Example
 ################################################################################
 
+This example explains how to use the OpenPNM.Utilies.IO.Statoil class to import a network produced by the Maximal Ball network extraction code developed by Martin Blunt's group at Imperial College London.  The code is available from him upon request, but they offer a small library of pre-extracted networks on their `website <https://www.imperial.ac.uk/engineering/departments/earth-science/research/research-groups/perm/research/pore-scale-modelling/micro-ct-images-and-networks/>`_.
+
 .. code-block:: python
 
     >>> import scipy as sp
@@ -20,13 +22,17 @@ The following assumes that the folder containing the 'dat' files is in the same 
     >>> pn = op.Utilities.IO.Statoil.load(path=path, prefix='Berea')
     >>> pn.name = 'berea'
 
-This import class extracts all the information contained in the 'Statoil' files produced by the Maximal Ball network extraction code developed by Martin Blunt's group at Imperial College London.  The code is available from him upon request, but they offer a small library of pre-extracted networks on their [website] (https://www.imperial.ac.uk/engineering/departments/earth-science/research/research-groups/perm/research/pore-scale-modelling/micro-ct-images-and-networks/).
+This import class extracts all the information contained in the 'Statoil' files
 
 At this point, the network can be visualized in Paraview.  A suitable '.vtp' file can be created with:
 
 .. code-block:: python
 
     >>> op.export_data(network=pn, filename='imported_statoil')
+
+The resulting network is shown below:
+
+.. image:: http://imgur.com/a/Cl6cA
 
 ================================================================================
 Adding Boundary Pores
