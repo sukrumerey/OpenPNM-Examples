@@ -2,9 +2,11 @@
 Statoil Import Example
 ################################################################################
 
->>> import scipy as sp
->>> import OpenPNM as op
->>> assert op.__version__ == '1.4.0'
+..code-block:: python
+
+    >>> import scipy as sp
+    >>> import OpenPNM as op
+    >>> assert op.__version__ == '1.4.0'
 
 ================================================================================
 Import Statoil 'dat' Files
@@ -12,9 +14,11 @@ Import Statoil 'dat' Files
 
 The following assumes that the folder containing the 'dat' files is in the same directory as this script:
 
->>> path = r"ICL-Sandstone(Berea)"
->>> pn = op.Utilities.IO.Statoil.load(path=path, prefix='Berea')
->>> pn.name = 'berea'
+..code-block:: python
+
+    >>> path = r"ICL-Sandstone(Berea)"
+    >>> pn = op.Utilities.IO.Statoil.load(path=path, prefix='Berea')
+    >>> pn.name = 'berea'
 
 This import class extracts all the information contained in the 'Statoil' files produced by the Maximal Ball network extraction code developed by Martin Blunt's group at Imperial College London.  The code is available from him upon request, but they offer a small library of pre-extracted networks on their [website] (https://www.imperial.ac.uk/engineering/departments/earth-science/research/research-groups/perm/research/pore-scale-modelling/micro-ct-images-and-networks/).
 
