@@ -6,9 +6,7 @@ Example: Regenerating Data from `J.T. Gostick et al. / JPS 173 (2007) 277–290`
 
 .. _J.T. Gostick et al. / JPS 173 (2007) 277–290: http://www.sciencedirect.com/science/article/pii/S0378775307009056
 
-.. line-block::
-
-    The following example was painstakingly created using an early version OpenPNM, and does not work properly with the current version.  It still valuable as it provides a detailed illustration of the OpenPNM workflow.
+| **Warning:** The following example was painstakingly created using an early version OpenPNM, and does not work properly with the current version.  It is still valuable as it provides a detailed illustration of the OpenPNM workflow.
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Getting Started

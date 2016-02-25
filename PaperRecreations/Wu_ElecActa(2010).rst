@@ -6,7 +6,7 @@ Example: Regenerating Data from `R. Wu et al. / Elec Acta v54n25 (2010) 7394–7
 
 .. _R. Wu et al. / Elec Acta v54n25 (2010) 7394–7403: http://www.sciencedirect.com/science/article/pii/S0013468610009503
 
-    | The following example was painstakingly created using an early version OpenPNM, and does not work properly with the current version.  It still valuable as it provides a detailed illustration of the OpenPNM workflow.
+    | **Warning:** The following example was painstakingly created using an early version OpenPNM, and does not work properly with the current version.  It is still valuable as it provides a detailed illustration of the OpenPNM workflow.
 
 .. code-block:: python
 
