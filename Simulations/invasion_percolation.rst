@@ -33,7 +33,7 @@ To perform most algorithms, it is necessary to define the pore scale physics tha
 .. code-block:: python
 
     >>> phys = OpenPNM.Physics.GenericPhysics(network=pn, phase=water,
-		...                                       geometry=geom)
+    ...                                       geometry=geom)
     >>> phys.add_model(propname='throat.capillary_pressure',
     ...                model=OpenPNM.Physics.models.capillary_pressure.washburn)
 
@@ -88,7 +88,7 @@ This method produces arrays called ``'pore.invaded'`` and ``'throat.invaded'`` o
     >>> IP.return_results()
     >>> OpenPNM.export_data(network=pn, filename='IP', fileformat='VTK')
 
-The top image in the figure below shows the invasion pattern in the network with each pore (sphere) colored according to the order it was invaded, with blue invaded early and red invaded last.  You can see that the smaller pores are colored red since these are likely to be connected to small throats.  In the bottom image at *Threshold* filter has been applied in Paraview to show only pores invaded in the first 200 steps, so a specific invasion pattern can be clearly seen.
+The top image in the figure below shows the invasion pattern in the network with each pore (sphere) colored according to the order it was invaded, with blue invaded early and red invaded last.  You can see that the smaller pores are colored red since these are likely to be connected to small throats.  In the bottom image at *Threshold* filter has been applied in Paraview to show only pores invaded in the first 200 steps, so a specific invasion pattern can be clearly seen.  Obviously the ``'inlet'`` pores are along the bottom edge of the network.
 
 .. image:: http://i.imgur.com/tFftRVA.png
 
