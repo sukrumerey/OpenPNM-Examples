@@ -10,14 +10,14 @@ Invasion percolation (IP) describes the pore-by-pore invasion of a non-wetting p
 Generating the Network, adding Geometry and creating Phases
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-Start by generating a basic cubic network and the other required components.  We'll use a 2D network to illustrate the algorithm since it's easier for visualization.
+Start by generating a basic cubic **Network** and the other required components.  We'll use a 2D network to illustrate the algorithm since it's easier for visualization.
 
 .. code-block:: python
 
     >>> import OpenPNM
     >>> pn = OpenPNM.Network.Cubic(shape=[20, 20, 1], spacing=0.0001)
 
-Next we need to create a Geometry object to manage the pore and throat size information, and a phase object to manage the thermophysical properties of the invading fluid.
+Next we need to create a **Geometry** object to manage the pore and throat size information, and a **Phase** object to manage the thermophysical properties of the invading fluid.
 
 .. code-block:: python
 
@@ -28,18 +28,18 @@ Next we need to create a Geometry object to manage the pore and throat size info
 Define the Pore-scale Physics
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-To perform most algorithms, it is necessary to define the pore scale physics that relates pore/throat geometry, phase properties, and the mechanism to be modeled.  In the case of an IP simulation, it is necessary to define the pressure at which the invading phase can enter each throat.  This is commonly done by assuming the throat is a cylinder and using the so-called "Washburn" equation.  The OpenPNM Physics module has a submodule for capillary pressure methods, including the Washburn model.  To use this model in a simulation, you first create a generic **Physics** object, then add the desired methods to this object as follows:
+To perform most algorithms, it is necessary to define the pore scale physics that relates pore/throat geometry, phase properties, and the mechanism to be modeled.  In the case of an IP simulation, it is necessary to define the pressure at which the invading phase can enter each throat.  This is commonly done by assuming the throat is a cylinder and using the so-called "Washburn" equation.  The OpenPNM **Physics** module has a folder for capillary pressure methods, including the "Washburn" model.  To use it in a simulation, you first create a generic **Physics** object, then add the model as follows:
 
 .. code-block:: python
 
     >>> phys = OpenPNM.Physics.GenericPhysics(network=pn, phase=water,
-		...         															geometry=geom)
+		...                                       geometry=geom)
     >>> phys.add_model(propname='throat.capillary_pressure',
     ...                model=OpenPNM.Physics.models.capillary_pressure.washburn)
 
-This means that the Physics object will now have a model called ``'throat.capillary_pressure'``, that when called will calculate throat entry pressures using the ``'washburn'`` model.  The Washburn model requires that the Phase object (Water in this case) has the necessary physical properties of surface tension and contact angle.
+This means that ``phys`` will now have a model called ``'throat.capillary_pressure'``, that when called will calculate throat entry pressures using the ``'washburn'`` model.  The Washburn model requires that the **Phase** object (``water`` in this case) has the necessary physical properties of surface tension and contact angle.
 
-The predefined Water object is assigned a contact angle of 110 degrees by default (water on Teflon). This can be confirmed by printing the first element of the ``'pore.contact_angle'`` array:
+The predefined **Water** class is assigned a contact angle of 110 degrees by default (water on Teflon). This can be confirmed by printing the first element of the ``'pore.contact_angle'`` array:
 
 .. code-block:: python
 
@@ -86,17 +86,17 @@ This method produces arrays called ``'pore.invaded'`` and ``'throat.invaded'`` o
 .. code-block:: python
 
     >>> IP.return_results()
-		>>> OpenPNM.export_data(network=pn, filename='IP', fileformat='VTK')
+    >>> OpenPNM.export_data(network=pn, filename='IP', fileformat='VTK')
 
 The top image in the figure below shows the invasion pattern in the network with each pore (sphere) colored according to the order it was invaded, with blue invaded early and red invaded last.  You can see that the smaller pores are colored red since these are likely to be connected to small throats.  In the bottom image at *Threshold* filter has been applied in Paraview to show only pores invaded in the first 200 steps, so a specific invasion pattern can be clearly seen.
 
 .. image:: http://i.imgur.com/tFftRVA.png
 
-To obtain the invading fluid configuration at some intermediate invasion state in OpenPNM (for instance the first 200 invasions) to be used to perform various simulations such as relative permeability, it is simply a matter of applying a Boolean operator to the ``'pore.invaded'`` and ``'throat.invaded'`` arrays such as:
+To obtain a specific invading fluid configuration at some intermediate invasion state in OpenPNM (for instance the first 200 invasions) for use in a subsequent simulations such as relative permeability, it is simply a matter of applying a Boolean operator to the ``'pore.invaded'`` and ``'throat.invaded'`` arrays such as:
 
 .. code-block:: python
 
     >>> Pinv = IP['pore.invaded'] < 200
     >>> Tinv = IP['throat.invaded'] < 200
 
-The ``run`` command takes an option argument of ``n_steps``, which if given performs a partial invasion of the network.  This approach is required if you wish to perform more complex invasions such as 100 steps from the 'left', then 100 from the 'right'.  In this case the invasion pattern will not be the same as if the invasion had proceeded entirely from the 'left'.
+More control of the invasion sequence is also possible.  The ``run`` command takes an option argument of ``n_steps``, which if given performs a partial invasion of the network.  This approach is required if you wish to perform more complex invasions such as 100 steps from the 'left', then 100 from the 'right'.  In this case the invasion pattern will not be the same as if the invasion had proceeded entirely from the 'left'.
