@@ -18,22 +18,24 @@ Start by generating a basic **Cubic** network and the other required components:
 
 The last call adds a layer of boundary pores on all sides of the network after it is generated. These boundary pores will be used in the following calculations. There is an alternative method call ``add_boundary_pores`` that allows fine grained control of boundary pore addition but it is more cumbersome to use.
 
-Next create a **Geometry** to manage the pore and throat size information.  A **Geometry** can span over a part of the **Network** only, so we need to specify to which pores and throats this **Geometry** object should apply. For this example, we want one **Geometry** to apply to the internal pores and a second to apply to the boundary pores:
+Next create a **Geometry** to manage the pore and throat size information.  A **Geometry** can span over a part of the **Network** only, so we need to specify to which pores and throats this **Geometry** object should apply. For this example, we want one **Geometry** to apply to the internal pores and a different one to the boundary pores:
 
 .. code-block:: python
 
+    >>> Ps = pn.pores('*boundary')  # Use wildcard to get all boundary pores
+    >>> boun = OpenPNM.Geometry.Boundary(network=pn, pores=Ps)
     >>> Ps = pn.pores('internal')  # Only non-boundary pores
-		>>> Ts = pn.throats('all')  # All throats
+	>>> Ts = pn.throats()  # All throats
     >>> geom = OpenPNM.Geometry.Stick_and_Ball(network=pn, pores=Ps, throats=Ts)
-		>>> Ps = pn.pores('*boundary')  # Use wildcard to get all boundary pores
-		>>> boun = geom = OpenPNM.Geometry.Boundary(network=pn, pores=Ps, throats=Ts)
+
+The ``Stick_and_Ball`` **Geometry** is a predefined class that applies normally distributed pore and throat sizes to the internal pores based on the size of the lattice spacing (which is infers from the network).  The ``Boundary`` class is predefined with properties suitable for boundaries such as 0 volume and length.
 
 We must also create the **Phase** objects:
 
 .. code-block:: python
 
-		>>> Hg = OpenPNM.Phases.Mercury(network=pn)
-		>>> air = OpenPNM.Phases.Air(network=pn)
+    >>> Hg = OpenPNM.Phases.Mercury(network=pn)
+    >>> air = OpenPNM.Phases.Air(network=pn)
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Define the Pore-Scale Physics
@@ -43,15 +45,15 @@ To perform most algorithms, it is necessary to define the pore scale physics tha
 
 .. code-block:: python
 
-		>>> phys = OpenPNM.Physics.GenericPhysics(network=pn, pores=pn.Ps,
-		...                                       throats=pn.Ts, phase=Hg)
+    >>> phys = OpenPNM.Physics.GenericPhysics(network=pn, pores=pn.Ps,
+    ...                                       throats=pn.Ts, phase=Hg)
 
 Then add the desired models to this object using:
 
 .. code-block:: python
 
-		>>> mod = OpenPNM.Physics.models.capillary_pressure.washburn
-		>>> phys.add_model(propname='throat.capillary_pressure', model=mod)
+    >>> mod = OpenPNM.Physics.models.capillary_pressure.washburn
+    >>> phys.add_model(propname='throat.capillary_pressure', model=mod)
 
 This means that ``phys`` will now have a model called 'capillary_pressure', that when called will calculate throat entry pressures using the 'washburn' model.  The Washburn model requires that the **Phase** object it's attached  (mercury in this case) has the necessary physical properties of surface tension and contact angle.
 
@@ -65,13 +67,13 @@ At this point, the system is fully defined and ready to perform some simulations
 
 .. code-block:: python
 
-		>>> MIP = OpenPNM.Algorithms.Drainage(network=pn)
+    >>> MIP = OpenPNM.Algorithms.Drainage(network=pn)
 
 Before performing simulations with this algorithm it is necessary to specify the desired experimental parameters with the ``setup`` command:
 
 .. code-block:: python
 
-		>>> MIP.setup(invading_phase=mercury, defending_phase=air)
+    >>> MIP.setup(invading_phase=mercury, defending_phase=air)
 
 This step tells the MIP algorithm where to find the required physical properties (i.e on ``Hg`` and the **Physics** associated with it), as well as which **Phase** objects to write the resulting ``'pore.occupancy'`` values.
 
@@ -110,4 +112,4 @@ It is possible using the information stored on the ``MIP`` object to reproduce t
 
     >>> MIP.plot_drainage_curve()
 
-.. image:: --------
+.. image:: http://i.imgur.com/ZxuCict.png
