@@ -30,7 +30,7 @@ install:
   - pip install transforms3d
   - pip install -r test_requirements.txt
   - pip install openpnm
-  - chmod a+x run_tests.py
+  - chmod a+x run_tests
 
 script:
-  - run_tests.py pep8
+  - run_tests pep8

@@ -2,7 +2,7 @@
 
 .. warning::
 
-    The following exmaple was painstakingly created using version 1.0 of OpenPNM.  The change to version 1.1 may have broken a few small lines in this example.  
+    The following exmaple was painstakingly created using version 1.0 of OpenPNM.  The change to version 1.1 may have broken a few small lines in this example.
 
 ===============================================================================
 Loading Networks Saved in MATLAB
@@ -45,11 +45,11 @@ Importing with MAT
 Once you have correctly formatted a *.mat file, it can be loaded with the following commands.
 
 .. code-block:: python
-    
-    import OpenPNM
-    fname = 'examples/yourfile' # or 'examples/yourfile.mat'
-    pn = OpenPNM.Network.MatFile(name='mat_net',filename=fname)
-    geom = pn.gemetries('internal')
+
+    >>> import OpenPNM
+    >>> fname = './fixtures/example_network.mat' # or 'examples/yourfile.mat'
+    >>> pn = OpenPNM.Network.MatFile(name='mat_net', filename=fname)
+    >>> geom = pn.gemetries('internal')
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Additional Pore and Throat Properties
@@ -66,7 +66,7 @@ There is no add_boundaries() command for this Network class. But, you can add `p
 
 Currently, this class has a built-in, but rather inflexible method that assumes the users knows what they are doing. Follow these instructions carefully:
 
-In order for the nework to import boundaries, the pore and throat data `ptype` and `ttype` must be present. 
+In order for the nework to import boundaries, the pore and throat data `ptype` and `ttype` must be present.
 
 +----------------+------------+----------------------------------+
 | Variable Name  | Value      | Description                      |
@@ -82,7 +82,12 @@ The `type` variables are integers between 0 and 6. All internal pores, inlcuding
 
 Importing a network with boundaries can be done as follows:
 
->>> pn = OpenPNM.Network.MatFile(name='mat_net',filename=fname,xtra_pore_data='type',xtra_throat_data='type')
+.. code-block:: python
+
+    >>> pn = OpenPNM.Network.MatFile(name='mat_net',
+    ...                              filename=fname,
+    ...                              xtra_pore_data='type',
+    ...                              xtra_throat_data='type')
 
 Because the `type` variables are loaded, the importer automatically adds labels for boundaries and surfaces.
 
