@@ -33,4 +33,4 @@ install:
   - chmod a+x run_tests
 
 script:
-  - run_tests
+  - python run_tests

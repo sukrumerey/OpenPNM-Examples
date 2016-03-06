@@ -47,9 +47,9 @@ Once you have correctly formatted a *.mat file, it can be loaded with the follow
 .. code-block:: python
 
     >>> import OpenPNM
-    >>> fname = './fixtures/example_network.mat' # or 'examples/yourfile.mat'
+    >>> fname = 'sample_content/example_network.mat' # or 'examples/yourfile.mat'
     >>> pn = OpenPNM.Network.MatFile(name='mat_net', filename=fname)
-    >>> geom = pn.gemetries('internal')
+    >>> geom = pn.geometries('internal')
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Additional Pore and Throat Properties
