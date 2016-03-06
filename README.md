@@ -1,7 +1,10 @@
+.. image:: https://travis-ci.org/PMEAL/OpenPNM-Examples.svg
+   :target: https://travis-ci.org/PMEAL/OpenPNM-Examples
+
 # OpenPNM-Examples
 A collection of scripts illustrating the use of OpenPNM
 
-> **Note:** This repository is very new and is still being setup.  Please be patient while we organize and adjust things.
+> **Note:** This repository is still being setup.  Please be patient while we organize and adjust things.
 
 The files in these folders are written in either reStructuredText, MarkDown, or IPythonNotebook format, which allows for an useful blend of formatted text and highlighted code.  
 

@@ -30,12 +30,7 @@ install:
   - pip install transforms3d
   - pip install -r test_requirements.txt
   - pip install openpnm
+  - chmod a+x .run_tests
 
 script:
-  - ./run_tests
-
-after_success:
-  - codecov
-
-deploy:
-  skip_cleanup: true
+  - .run_tests pep8
