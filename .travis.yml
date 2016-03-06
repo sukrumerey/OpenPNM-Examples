@@ -33,4 +33,4 @@ install:
   - chmod a+x run_tests
 
 script:
-  - run_tests pep8
+  - run_tests
