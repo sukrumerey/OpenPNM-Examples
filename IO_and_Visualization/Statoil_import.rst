@@ -18,7 +18,8 @@ The following assumes that the folder containing the 'dat' files is in the same 
 
 .. code-block:: python
 
-    >>> path = r"ICL-Sandstone(Berea)"
+    >>> import os
+    >>> path = os.path.join('fixtures', 'ICL-Sandstone(Berea)')
     >>> pn = op.Utilities.IO.Statoil.load(path=path, prefix='Berea')
     >>> pn.name = 'berea'
 
@@ -71,7 +72,7 @@ Finally, we want to offset the inlet reservoir pore away from the internal netwo
     >>> extents = sp.ptp(pn['pore.coords'][Pin], axis=0)
     >>> offset_dim = sp.argmin(extents)
     >>> pn['pore.coords'][-1, offset_dim] = pn['pore.coords'][-1, offset_dim] - \
-                                            extents[offset_dim]
+    ...                                     extents[offset_dim]
 
 Now repeat for the outlet reservoir:
 
@@ -86,7 +87,7 @@ Now repeat for the outlet reservoir:
     >>> extents = sp.ptp(pn['pore.coords'][Pout], axis=0)
     >>> offset_dim = sp.argmin(extents)
     >>> pn['pore.coords'][-1, offset_dim] = pn['pore.coords'][-1, offset_dim] + \
-                                            extents[offset_dim]
+    ...                                     extents[offset_dim]
 
 The new reservoir pores can now be seen in Paraview, by exporting a 'vtp' file:
 
@@ -135,7 +136,7 @@ As can be seen, properties such as 'pore.radius' and 'thorat.length' have fewer 
     >>> pn['pore.radius'][P] = 0
     >>> pn['pore.volume'][P] = 0
     >>> pn['pore.shape_factor'][P] = 0
-    >>> T = pn.throat('*reservoir')  # Find throats to reservoir pores
+    >>> T = pn.throats('*reservoir')  # Find throats to reservoir pores
     >>> pn['throat.length'][T] = 0
     >>> pn['throat.radius'][T] = 100  # A large number to give low resistance
     >>> pn['throat.shape_factor'][T] = 0
