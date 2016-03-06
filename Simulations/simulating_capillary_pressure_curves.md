@@ -54,7 +54,7 @@ Then add the desired models to this object using:
 
 This means that ``phys`` will now have a model called 'capillary_pressure', that when called will calculate throat entry pressures using the 'washburn' model.  The Washburn model requires that the **Phase** object it's attached  (mercury in this case) has the necessary physical properties of surface tension and contact angle.
 
-    | **Note** :  Both surface tension and contact angle are actually 'phase system' properties, rather than solely water properties.  It is an open problem in OpenPNM to figure out how to treat these sort of properties more rigorously.  For the present time, they must be entered a single phase properties, in this case in ``Hg``.
+> **Note** :  Both surface tension and contact angle are actually 'phase system' properties, rather than solely water properties.  It is an open problem in OpenPNM to figure out how to treat these sort of properties more rigorously.  For the present time, they must be entered a single phase properties, in this case in ``Hg``.
 
 ## Run a Drainage Simulation
 
@@ -83,7 +83,7 @@ Next, we specify through which pores mercury enters the network.
 
 In MIP experiment this is all pores on the surface which are actually the "boundary" pores we created above.  These are found using the *wildcard* operator with the ``'boundary'`` label.
 
-  | **Advanced Features**: It is also possible to call the ``set_outlets`` method to specify through pores which the defending phase exits the network, but this is not relevant to an MIP simulation since the sample is evacuated of air.  Moreover, it's possible to simulate secondary drainage by using the ``set_residual`` method, but this requires knowing the locations of the residual non-wetting phase from some other simulation.
+> **Advanced Features**: It is also possible to call the ``set_outlets`` method to specify through pores which the defending phase exits the network, but this is not relevant to an MIP simulation since the sample is evacuated of air.  Moreover, it's possible to simulate secondary drainage by using the ``set_residual`` method, but this requires knowing the locations of the residual non-wetting phase from some other simulation.
 
 Now the ``MIP`` algorithm is ready to ``run``:
 
@@ -106,4 +106,4 @@ This algorithm produces 4 data arrays and stores them on the ``MIP`` object.  ``
 
 It is possible using the information stored on the ``MIP`` object to reproduce the capillary pressure curve manually.  Since this is such a common operation, however, the **Drainage** class has methods already available for doing this.  The raw capillary pressure curve data can be obtained using the ``get_drainage_data`` method, which returns a table of data for plotting in an external program of your choice.  Alternatively, a plot can be created directly with ``MIP.plot_drainage_curve()``.
 
-.. image:: http://i.imgur.com/ZxuCict.png
+![](http://i.imgur.com/ZxuCict.png)

@@ -91,4 +91,4 @@ The stored results can be visualized with Matplotlib on the same axes as the bon
 
 The percolation threshold for bond percolation is lower that for site percolation.  The theoretical values are [24.88 and 31.16 respectively](http://en.wikipedia.org/wiki/Percolation_threshold#Thresholds_on_3D_lattices), which agrees with the present results considering the small size of the Network used here.
 
-![http://imgur.com/BZTSD6e.png]()
+![]](http://imgur.com/BZTSD6e.png)
