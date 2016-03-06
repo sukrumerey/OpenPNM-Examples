@@ -6,18 +6,21 @@ This examples illustrates how to set up an OpenPNM simulation to perform traditi
 >>> import scipy as sp
 >>> import OpenPNM
 >>> sim = OpenPNM.Base.Controller()
+
 ```
 
 Next, generate a cubic Network of specified size that will contain the topological connections:
 
 ``` python
 >>> pn = OpenPNM.Network.Cubic(shape=[20, 20, 20], spacing=1)
+
 ```
 
 In this case it is not necessary to create a Geometry object since we don't need pore and throat sizes.  Instead, create a Phase object that will act as our conductor:
 
 ``` python
 >>> ionomer = OpenPNM.Phases.GenericPhase(network=pn)
+
 ```
 
 This Phase object will provide the basic properties of the conducting phase, but we need to create a Physics object since the Algorithm object look there to find the necessary conductance values:
@@ -28,6 +31,7 @@ This Phase object will provide the basic properties of the conducting phase, but
 >>> phys['throat.random_seed'] = sp.rand(pn.Nt,)  # Assign random numbers to throats
 >>> phys['pore.random_seed'] = sp.rand(pn.Np,)  # Assign random numbers to pores
 >>> phys['throat.ionic_conductance'] = 1.0
+
 ```
 
 Finally, create an Algorithm object for performing the percolation calculations:
@@ -41,11 +45,13 @@ Finally, create an Algorithm object for performing the percolation calculations:
 ...                              pores=pn.pores('top'))
 >>> Seff.set_boundary_conditions(bctype='Dirichlet', bcvalue=Vout,
 ...                              pores=pn.pores('bottom'))
+
 ```
 
 For bond percolation, throats are progressively dropped from the Network and the overall Network conductivity is determined.  This is accomplished by running the Algorithm inside a loop, and to decreasing the number fraction of throat connections in the Network on each loop:
 
 ``` python
+>>> [X, Y, Z] = [20, 20, 20]  # Network shape
 >>> # Create an empty list to store the effective conductivity results
 >>> S = []
 >>> # Create a list of number fractions to simulate
@@ -56,6 +62,7 @@ For bond percolation, throats are progressively dropped from the Network and the
 ...     Seff.run(conductance='throat.ionic_conductance', quantity='voltage')
 ...     i = Seff.rate(pn.pores('top'))
 ...     S.append(float(i*Z/((Vin-Vout)*X*Y)))
+
 ```
 
 The stored results can be visualized with Matplotlib using ``plt.plot(phis, sp.log(S), 'ro-')``.
@@ -77,6 +84,7 @@ To simulation site percolation, pores or sites are progressively removed as are 
 ...     Seff.run(conductance='throat.ionic_conductance', quantity='voltage')
 ...     i = Seff.rate(pn.pores('bottom'))
 ...     S.append(float(i*Z/((Vin-Vout)*X*Y)))
+
 ```
 
 The stored results can be visualized with Matplotlib on the same axes as the bond percolation results from above using ``plt.plot(phis,sp.log(S),'bo-')``
