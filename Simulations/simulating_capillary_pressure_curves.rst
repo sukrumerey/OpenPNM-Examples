@@ -73,7 +73,7 @@ Before performing simulations with this algorithm it is necessary to specify the
 
 .. code-block:: python
 
-    >>> MIP.setup(invading_phase=mercury, defending_phase=air)
+    >>> MIP.setup(invading_phase=Hg, defending_phase=air)
 
 This step tells the MIP algorithm where to find the required physical properties (i.e on ``Hg`` and the **Physics** associated with it), as well as which **Phase** objects to write the resulting ``'pore.occupancy'`` values.
 
@@ -110,6 +110,6 @@ It is possible using the information stored on the ``MIP`` object to reproduce t
 
 .. code-block:: python
 
-    >>> MIP.plot_drainage_curve()
+    MIP.plot_drainage_curve()
 
 .. image:: http://i.imgur.com/ZxuCict.png
