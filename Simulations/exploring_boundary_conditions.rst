@@ -40,7 +40,7 @@ Then the phase object is created and a custom value is set.
 	air = OpenPNM.Phases.Air(network=pn)
 	air['pore.Dac'] = 1e-7  # Add custom properties directly
 
-In the next step, a physics object is instantiated. A physics objects can span over several geometries, so we need to specify again to which pores and throats it should apply. 
+In the next step, a physics object is instantiated. A physics objects can span over several geometries, so we need to specify again to which pores and throats it should apply.
 
 .. code-block:: python
 
@@ -52,7 +52,7 @@ Now we tell the physics object to use the 'bulk_diffusion' of the 'diffusive_con
 
 	phys.add_model(model=OpenPNM.Physics.models.diffusive_conductance.bulk_diffusion,
                    propname='throat.gdiff_ac',
-                   pore_diffusivity='pore.Dac')
+				   pore_diffusivity='pore.Dac')
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Generate an Algorithm Object

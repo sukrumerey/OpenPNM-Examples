@@ -25,7 +25,7 @@ Next create a **Geometry** to manage the pore and throat size information.  A **
     >>> Ps = pn.pores('*boundary')  # Use wildcard to get all boundary pores
     >>> boun = OpenPNM.Geometry.Boundary(network=pn, pores=Ps)
     >>> Ps = pn.pores('internal')  # Only non-boundary pores
-	>>> Ts = pn.throats()  # All throats
+    >>> Ts = pn.throats()  # All throats
     >>> geom = OpenPNM.Geometry.Stick_and_Ball(network=pn, pores=Ps, throats=Ts)
 
 The ``Stick_and_Ball`` **Geometry** is a predefined class that applies normally distributed pore and throat sizes to the internal pores based on the size of the lattice spacing (which is infers from the network).  The ``Boundary`` class is predefined with properties suitable for boundaries such as 0 volume and length.
