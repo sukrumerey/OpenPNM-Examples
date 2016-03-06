@@ -1,13 +1,7 @@
-.. _matload:
-
-.. warning::
-
-    The following exmaple was painstakingly created using version 1.0 of OpenPNM.  The change to version 1.1 may have broken a few small lines in this example.
-
 ===============================================================================
 Loading Networks Saved in MATLAB
 ===============================================================================
-OpenPNM has the ability to load networks generated in MATLAB. Saved as a specially formated *.mat file.
+OpenPNM has the ability to load networks generated in MATLAB, saved as a specially formatted *.mat file.
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 MAT File Format
@@ -39,17 +33,22 @@ If you have created a pore network in MATLAB and you would like to import it int
 |                | int        |                                  |
 +----------------+------------+----------------------------------+
 
+An example file is part of this repository in the ``fixtures`` directory which you can view in Matlab.  
+
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Importing with MAT
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-Once you have correctly formatted a *.mat file, it can be loaded with the following commands.
+Once you have correctly formatted a *.mat file, it can be loaded with the following commands, assuming it is stored in a folder called ``fixture`` in your current working directory:
 
 .. code-block:: python
 
     >>> import OpenPNM
-    >>> fname = 'sample_content/example_network.mat' # or 'examples/yourfile.mat'
-    >>> pn = OpenPNM.Network.MatFile(name='mat_net', filename=fname)
+    >>> import os
+    >>> fname = os.join('fixtures', 'example_network.mat')
+    >>> pn = OpenPNM.Network.MatFile(filename=fname)
     >>> geom = pn.geometries('internal')
+
+Of course you store it any folder you wish, so long as you give the correct path in the ``os.join`` command.
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Additional Pore and Throat Properties
@@ -90,11 +89,3 @@ Importing a network with boundaries can be done as follows:
     ...                              xtra_throat_data='type')
 
 Because the `type` variables are loaded, the importer automatically adds labels for boundaries and surfaces.
-
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-Example File
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-One example *.mat file has been loaded with the OpenPNM installation. Look for /OpenPNM/Network/test_pn.mat
-
-

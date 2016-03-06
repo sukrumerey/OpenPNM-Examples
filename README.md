@@ -1,4 +1,4 @@
-[![https://travis-ci.org/PMEAL/OpenPNM-Examples.svg](https://travis-ci.org/PMEAL/OpenPNM-Examples)
+![https://api.travis-ci.org/PMEAL/OpenPNM-Examples.svg](https://travis-ci.org/PMEAL/OpenPNM-Examples)
 
 # OpenPNM-Examples
 A collection of scripts illustrating the use of OpenPNM
