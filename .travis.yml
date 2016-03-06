@@ -32,7 +32,7 @@ install:
   - pip install openpnm
 
 script:
-  - .run_tests
+  - ./run_tests
 
 after_success:
   - codecov
