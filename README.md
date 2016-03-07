@@ -20,3 +20,5 @@ We strongly encourage you to create an example and post it in this collection.  
 ## How to Write an Example
 
 This section introduces a few rules and tips for creating nicely formatted documents that would be suitable for inclusion here.  
+
+> **MarkDown Tips:** If you need some help on MarkDown formatting and notation, checkout [the cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).

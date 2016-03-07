@@ -12,7 +12,7 @@ This examples illustrates how to set up an OpenPNM simulation to perform traditi
 Next, generate a cubic Network of specified size that will contain the topological connections:
 
 ``` python
->>> pn = OpenPNM.Network.Cubic(shape=[20, 20, 20], spacing=1)
+>>> pn = OpenPNM.Network.Cubic(shape=[15, 15, 15], spacing=1)
 
 ```
 

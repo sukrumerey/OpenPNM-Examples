@@ -8,8 +8,11 @@ Start by generating a basic cubic network and the other required components:
 
 ``` python
 >>> import OpenPNM
->>> pn = OpenPNM.Network.Cubic(name='net',shape=[10,10,10])
->>> pn.add_boundaries()
+>>> pn = OpenPNM.Network.Cubic(name='net', shape=[10,10,10], spacing=0.0001)
+>>> pn.add_boundary_pores(pores=pn.pores('top'), offset=[0, 0, 0.0001],
+...                       apply_label='top_boundary')
+>>> pn.add_boundary_pores(pores=pn.pores('top'), offset=[0, 0, -0.0001],
+...                       apply_label='bottom_boundary')
 
 ```
 
@@ -50,7 +53,7 @@ In the next step, a physics object is instantiated. A physics objects can span o
 Now we tell the physics object to use the 'bulk_diffusion' model from the 'diffusive_conductance' library.
 
 ``` python
->>> mode = OpenPNM.Physics.models.diffusive_conductance.bulk_diffusion
+>>> mod = OpenPNM.Physics.models.diffusive_conductance.bulk_diffusion
 >>> phys.add_model(model= mod,
 ...                propname='throat.gdiff_ac',
 ...                pore_diffusivity='pore.Dac')
@@ -120,13 +123,13 @@ One of the options for specifying Neumann conditions is to apply the same rate t
 
 ``` python
 >>> alg.set_boundary_conditions(bctype='Neumann_group', pores=BC3_pores, mode='remove') # This removes label from pores
->>> alg.set_boundary_conditions(bctype='Dirichlet',pores=BC2_pores, mode='remove')
->>> alg.set_boundary_conditions(bctype='Neumann',pores=BC2_pores, bcvalue=1e-10)
+>>> alg.set_boundary_conditions(bctype='Dirichlet', pores=BC2_pores, mode='remove')
+>>> alg.set_boundary_conditions(bctype='Neumann', pores=BC2_pores, bcvalue=1e-10)
 >>> alg.run(conductance='throat.diffusive_conductance')
 >>> alg.return_results()
 
 ```
 
-This results in image below.  Notice that the concentration on the inlet face is not uniform, and that the smaller pores have a somewhat higher concentration (darker red), which is necessary if their flux is the be the same as larger, more conductive pores.
+This results in image below.  Notice that the concentration on the inlet face is not uniform, and that the smaller pores have a somewhat higher concentration (darker red), which is necessary if their flux is to be the same as larger, more conductive pores.
 
 ![](http://imgur.com/50hGves.png)
