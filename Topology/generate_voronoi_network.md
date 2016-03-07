@@ -194,10 +194,10 @@ OpenPNM.Postprocessing.Plots.drainage_curves(OP_1, timing=None, fig=fig)
 
 ```
 
-We can also view the network data by creating vtk files to be viewed using ParaView (downloadable at http://www.paraview.org/download/ ). It is suggested that version 3.98 is downloaded instead of 4.1).  If we visualize our pore network model with phase data included it will look like this:
+We can also view the network data by creating vtk files to be viewed using [ParaView](http://www.paraview.org/download). If we visualize our pore network model with phase data included it will look like this:
 
 ![](http://imgur.com/lmjSHG7.png)
 
 Spherical glyphs are used to represent the pores and are sized using the pore diameter. The water.occupancy data is used to colour the glyphs and those that are un-occupied are set to be invisible using the opacity scale.
 
-To create the vtk file use ``OpenPNM.export_data(network=pn, file_format='VTK')
+To create the vtk file use ``OpenPNM.export_data(network=pn, file_format='VTK')``
