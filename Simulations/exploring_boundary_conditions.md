@@ -122,7 +122,7 @@ This results in the image below, where a region of high concentration can be see
 One of the options for specifying Neumann conditions is to apply the same rate to multiple pores.  Begin by removing some of the conditions applied above, then set a few pores on the 'bottom' face to each have the same specific rate.
 
 ``` python
->>> alg.set_boundary_conditions(bctype='Neumann_group', pores=BC3_pores, mode='remove') # This removes label from pores
+>>> alg.set_boundary_conditions(bctype='Neumann_group', mode='remove')
 >>> alg.set_boundary_conditions(bctype='Dirichlet', pores=BC2_pores, mode='remove')
 >>> alg.set_boundary_conditions(bctype='Neumann', pores=BC2_pores, bcvalue=1e-10)
 >>> alg.run(conductance='throat.diffusive_conductance')
