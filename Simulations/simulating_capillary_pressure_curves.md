@@ -104,6 +104,6 @@ This algorithm produces 4 data arrays and stores them on the ``MIP`` object.  ``
 
 ### Plotting the Capillary Pressure Curve
 
-It is possible using the information stored on the ``MIP`` object to reproduce the capillary pressure curve manually.  Since this is such a common operation, however, the **Drainage** class has methods already available for doing this.  The raw capillary pressure curve data can be obtained using the ``get_drainage_data`` method, which returns a table of data for plotting in an external program of your choice.  Alternatively, a plot can be created directly with ``MIP.plot_drainage_curve()``.
+It is possible using the information stored on the ``MIP`` object to reproduce the capillary pressure curve manually.  Since this is such a common operation, however, the **Drainage** class has methods already available for doing this.  The raw capillary pressure curve data can be obtained using the ``get_drainage_data`` method, which returns a table of data for plotting in an external program of your choice.  Alternatively, a plot can be created directly with ``plot_drainage_curve``.
 
 ![](http://i.imgur.com/ZxuCict.png)

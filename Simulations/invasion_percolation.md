@@ -1,6 +1,6 @@
 # Predicting Fluid Configurations using Invasion Percolation
 
-Invasion percolation (IP) describes the pore-by-pore invasion of a non-wetting phase into a porous material.  It is physically analogous to an experiment where fluid is injected at a constant rate using a syringe pump, but can be used to describe physical processes where the detailed sequence of pore filling is important.  The original application of IP to porous materials was presented by [Wilkinson and Willemsen](http://dx.doi.org/10.1088/0305-4470/16/14/028) and a detailed analysis of IP in terms of general percolation theory was given by [Sheppard et al]([http://doi.org/10.1088/0305-4470/32/49/101).
+Invasion percolation (IP) describes the pore-by-pore invasion of a non-wetting phase into a porous material.  It is physically analogous to an experiment where fluid is injected at a constant rate using a syringe pump, but can be used to describe physical processes where the detailed sequence of pore filling is important.  The original application of IP to porous materials was presented by [Wilkinson and Willemsen](http://dx.doi.org/10.1088/0305-4470/16/14/028) and a detailed analysis of IP in terms of general percolation theory was given by [Sheppard et al](http://doi.org/10.1088/0305-4470/32/49/101).
 
 ## Generating the Network, adding Geometry and creating Phases
 
@@ -38,6 +38,8 @@ The predefined **Water** class is assigned a contact angle of 110 degrees by def
 ``` python
 >>> print(water['pore.contact_angle'][0])
 110.0
+
+```
 
 To change this value, the ``'pore.contact_angle'`` property of ``water`` can be set to a new constant:
 
