@@ -9,6 +9,7 @@ As usual, start by importing OpenPNM, and the SciPy library.
 ``` python
 >>> import scipy as sp
 >>> import OpenPNM
+
 ```
 
 ## Generating the Network object
@@ -22,6 +23,7 @@ Next, a **Network** is generated with dimensions of 10x50 elements. The lattice 
 >>> pn = OpenPNM.Network.Cubic(shape=divs, spacing=Lc)
 >>> pn.add_boundaries()
 >>> pn.trim(pores=pn.pores(['top_boundary', 'bottom_boundary']))
+
 ```
 
 ## Generating the Geometry object
@@ -35,6 +37,7 @@ After the **Network** is generated, a **Geometry** object is defined for the int
 >>> geom = OpenPNM.Geometry.GenericGeometry(network=pn,
 ...                                         pores=Ps,
 ...                                         throats=Ts)
+
 ```
 
 The shape of each individual element, so the pores and throats, is altered in the following section to obtain pores of cubic shape with the diameter equal to the lattice spacing and the pore area equal to the square of the lattice spacing. The throats are set to have the same area, but a very short length, so that the distance between the pores is very low.
@@ -44,6 +47,7 @@ The shape of each individual element, so the pores and throats, is altered in th
 >>> geom['pore.diameter'] = Lc
 >>> geom['throat.length'] = 1e-25
 >>> geom['throat.area'] = Lc**2
+
 ```
 
 A similar approach is used to define the geometry of the boundary pores **Geometry** object.
@@ -53,6 +57,7 @@ A similar approach is used to define the geometry of the boundary pores **Geomet
 >>> boun = OpenPNM.Geometry.GenericGeometry(network=pn, pores=Ps)
 >>> boun['pore.area'] = Lc**2
 >>> boun['pore.diameter'] = 1e-25
+
 ```
 
 ## Generating the Phases and Physics objects
@@ -70,6 +75,7 @@ Now a **Phase** object is defined and associated with a corresponding **Physics*
 >>> mod = OpenPNM.Physics.models.thermal_conductance.series_resistors
 >>> phys.add_model(propname='throat.thermal_conductance', model=mod)
 >>> phys.regenerate()  # Update the conductance values
+
 ```
 
 ## Generating the Algorithms objects and running the simulation
@@ -90,6 +96,7 @@ The last step in the OpenPNM simulation involves the generation of a **Algorithm
 ...                                     pores=outlets)
 >>> Fourier_alg.run()
 >>> Fourier_alg.return_results()
+
 ```
 
 This is the last step usually required in a OpenPNM simulation. The algorithm was run, and now the simulation data obtained can be analyzed. For illustrative purposes, the results obtained using OpenPNM shall be compared to an analytical solution of the problem in the following.
@@ -106,6 +113,7 @@ The analytical solution is computed in *Python* as well, and the result is assig
 >>> sim = sp.reshape(sim, (divs[0], divs[1]))
 >>> analyt = sp.reshape(analyt, (divs[0], divs[1]))
 >>> diff = sim - analyt
+
 ``` 
 
 Plotting the difference variable *diff* on the domain is done next.
@@ -117,6 +125,7 @@ Plotting the difference variable *diff* on the domain is done next.
 >>> plt.colorbar()
 >>> plt.imshow(diff,interpolation='none')
 >>> plt.colorbar()
+
 ``` 
 
 The resulting images are shown below. The first image shows the simulation results. The second image shows the absolute difference between the simulation and the analytical solution. It can be seen that the relative difference between analytical and simulation is on the order of 10<sup>-4</sup>.
