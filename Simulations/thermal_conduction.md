@@ -116,17 +116,7 @@ The analytical solution is computed in *Python* as well, and the result is assig
 
 ``` 
 
-Plotting the difference variable *diff* on the domain is done next.
-
-``` python
->>> # Plotting the difference between analytical and OpenPNM simulation
->>> import matplotlib.pyplot as plt
->>> plt.imshow(sim,interpolation='none')
->>> plt.colorbar()
->>> plt.imshow(diff,interpolation='none')
->>> plt.colorbar()
-
-``` 
+The results can be visualized using Matplotlib. First Matplotlib has to be imported e.g. as ``import matplotlib.pyplot as plt``, after which the results can be plotted using either ``plt.imshow(sim,interpolation='none')`` for the computed simulation results that were saved in the variable *sim* or ``plt.imshow(diff,interpolation='none')`` for the difference between the simulation results and the analytical solution that were saved in the variable *diff*. Calling ``plt.colorbar()`` will give a colorbar.
 
 The resulting images are shown below. The first image shows the simulation results. The second image shows the absolute difference between the simulation and the analytical solution. It can be seen that the relative difference between analytical and simulation is on the order of 10<sup>-4</sup>.
 
