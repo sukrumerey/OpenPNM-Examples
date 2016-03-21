@@ -9,6 +9,7 @@ This example shows you how to calculate a transport property relative to the sat
 >>> import numpy as np
 >>> import matplotlib.pyplot as plt
 >>> sim = OpenPNM.Base.Controller()
+>>> sim.clear()
 >>> sim.loglevel = 40
 
 ```
