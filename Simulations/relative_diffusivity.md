@@ -15,7 +15,7 @@ This example shows you how to calculate a transport property relative to the sat
 Next create a **Network** object with a cubic topology and lattice spacing of 25 microns and add boundary pores
 
 ``` python
->>> pn = OpenPNM.Network.Cubic(shape=[10, 10, 10], spacing=2.5e-5, name='net')
+>>> pn = OpenPNM.Network.Cubic(shape=[10, 10, 10], spacing=2.5e-5)
 >>> pn.add_boundaries()
 
 ```
