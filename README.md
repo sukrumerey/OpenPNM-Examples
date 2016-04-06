@@ -4,6 +4,9 @@
 
 A collection of scripts illustrating the use of OpenPNM.  The files in these folders are written in MarkDown, which allows for an useful blend of formatted text and highlighted code.  You can browse the available files by clicking through the web interface of the repository seen above.  
 
+## Contents
+[Simulating Capillary Pressure Curves](/Simulations/simulating_capillary_pressure_curves.md)
+
 > **Note:** All the examples in this repository are subject to automated testing, so if the build badge above says passing then all of these examples should work.  All code within these files is in code-blocks and preceded by the python prompt symbol (>>>).  This is annoying for cutting-and-pasting, but is necessary if we want to run automated tests on the code.  
 
 ## How to Contribute an Example to this Collection
