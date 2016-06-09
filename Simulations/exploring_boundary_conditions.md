@@ -107,7 +107,7 @@ The code below sets the total rate leaving a group of pores cumulatively.  Note 
 
 ``` python
 >>> BC3_pores = [50,51,52,53,54,40,41,42,43,44]
->>> alg.set_boundary_conditions(bctype='Neumann_group', bcvalue=-5e-3, pores=BC3_pores)
+>>> alg.set_boundary_conditions(bctype='Neumann_group', bcvalue=-5e-8, pores=BC3_pores)
 >>> alg.run(conductance='throat.diffusive_conductance')
 >>> alg.return_results()
 
