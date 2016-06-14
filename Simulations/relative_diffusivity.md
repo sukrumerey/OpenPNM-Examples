@@ -77,10 +77,10 @@ In order to simulate a partially saturated material we first run an ``OrdinaryPe
 >>> used_inlets = [inlets[x] for x in range(0, len(inlets), step)]
 >>> OP_1.run(inlets=used_inlets,inv_points=inv_points)
 >>> OP_1.return_results()
->>> OP_1.plot_drainage_curve()
 
 ```
-Here we have selected half of the boundary pores at the bottom of the domain as inlets for the percolation **Algorithm**. ``OrdinaryPercolation`` has a helpful plotting function which displays the saturation of the invading phase (volume fraction of the pore space) vs. capillary pressure. The red line is pore saturation, blue is throat saturation and green is total saturation.
+
+Here we have selected half of the boundary pores at the bottom of the domain as inlets for the percolation **Algorithm**. ``OrdinaryPercolation`` has a helpful plotting function which displays the saturation of the invading phase (volume fraction of the pore space) vs. capillary pressure: ```OP_1.plot_drainage_curve()```. The red line is pore saturation, blue is throat saturation and green is total saturation.
 
 ![](http://imgur.com/o6zfY8p.png)
 
