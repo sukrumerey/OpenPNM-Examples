@@ -44,8 +44,9 @@ Often it is desired to create a distribution of coordination numbers on each por
 10476
 >>> throats_to_trim = sp.random.randint(low=0, high=pn.Nt-1, size=500)
 >>> pn.trim(throats=throats_to_trim)
->>> pn.num_throats()
-9976
+>>> # randint returns some duplicate numbers so actual number of trimmed throats varies
+>>> pn.num_throats() < 10476
+True
 >>>
 
 ```
@@ -85,4 +86,4 @@ The **Cubic** class can generate networks of arbitrary shapes (i.e. spheres), bu
 
 This results in the following:
 
-[](http://i.imgur.com/eyFHqNx.png)
+![](http://i.imgur.com/eyFHqNx.png)
