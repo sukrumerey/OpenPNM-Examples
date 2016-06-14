@@ -130,8 +130,8 @@ Now we are ready to set up our phases (water and air) and the physics correspond
 
 ``` python
 >>> #set up
->>> air = OpenPNM.Phases.Air(network=pn, name='air')
->>> water = OpenPNM.Phases.Water(network=pn, name='water')
+>>> air = OpenPNM.Phases.Air(network=pn)
+>>> water = OpenPNM.Phases.Water(network=pn)
 
 ```
 
