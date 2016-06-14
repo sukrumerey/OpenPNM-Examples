@@ -5,7 +5,6 @@ This example explains how to use the OpenPNM.Utilies.IO.Statoil class to import 
 ``` python
 >>> import scipy as sp
 >>> import OpenPNM as op
->>> assert op.__version__ == '1.4.0'
 
 ```
 

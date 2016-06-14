@@ -23,14 +23,16 @@ An example file is part of this repository in the ``fixtures`` directory which y
 
 ## Importing with MAT
 
-Once you have correctly formatted a \*.mat file, it can be loaded with the following commands, assuming it is stored in a folder called ``fixture`` in your current working directory:
+Once you have correctly formatted a \*.mat file, it can be loaded with the following commands, assuming it is stored in a folder called ``fixtures`` in your current working directory:
 
 ``` python
 >>> import OpenPNM
 >>> import os
 >>> fname = os.path.join('fixtures', 'example_network.mat')
 >>> pn = OpenPNM.Network.MatFile(filename=fname)
->>> geom = pn.geometries('internal')
+>>> # This class also create a geometry object and attaches it to the network
+>>> geom_name = pn.geometries()[0]
+>>> geom = pn.geometries(geom_name)
 
 ```
 
