@@ -65,6 +65,24 @@ The ```shape``` and ```spacing``` arguments can of course be adjusted to create 
 
 ```
 
+This results in the following network with is squished in the x-direction.
+
+![](http://i.imgur.com/ICEAO7p.png)
+
 ### Spherical and Other Arbitrary Domains
 
-The **Cubic** class can generate networks of arbitrary shapes (i.e. spheres), but still with *cubic* connectivity.  
+The **Cubic** class can generate networks of arbitrary shapes (i.e. spheres), but still with *cubic* connectivity.  This is accomplished using the ```template``` argument, which accepts a binary image of 1's and 0's.  The network will have pores where the 1's are and 0's elsewhere.  For instance, to make a spherical domain  for a catalyst pellet, generate an image of a sphere using Scipy's NDimage module, the pass this image to **Cubic** as follows:
+
+``` python
+>>> import scipy.ndimage as spim
+>>> im = sp.ones([21, 21, 21])
+>>> im[10, 10, 10] = 0
+>>> dt = spim.distance_transform_bf(input=im)
+>>> sphere = dt < 10
+>>> pn = op.Network.Cubic(template=sphere, spacing=0.1)
+
+```
+
+This results in the following:
+
+[](http://i.imgur.com/eyFHqNx.png)
