@@ -94,6 +94,8 @@ Finally, we can create a **StokesFlow** object to run some fluid flow simulation
 >>> flow = op.Algorithms.StokesFlow(network=pn, phase=water)
 >>> flow.set_boundary_conditions(pores=pn.pores('inlets'), bctype='Dirichlet', bcvalue=200000)
 >>> flow.set_boundary_conditions(pores=pn.pores('outlets'), bctype='Dirichlet', bcvalue=100000)
+>>> flow.run()
+>>> flow.return_results()
 
 ```
 
