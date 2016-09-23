@@ -8,9 +8,8 @@ This example shows you how to calculate a transport property relative to the sat
 >>> import OpenPNM
 >>> import numpy as np
 >>> import matplotlib.pyplot as plt
->>> sim = OpenPNM.Base.Controller()
->>> sim.clear()
->>> sim.loglevel = 40
+>>> workspace = OpenPNM.Base.Workspace()
+>>> workspace.clear()
 
 ```
 Next create a **Network** object with a cubic topology and lattice spacing of 25 microns and add boundary pores
@@ -140,8 +139,8 @@ Now for each invasion step we cycle through the principle directions and create 
 ...         FD_2.run(conductance = 'conduit_diffusive_conductance')
 ...         eff_diff = FD_2.calc_eff_diffusivity()
 ...         diff_water[str(bound_increment)].append(eff_diff)
-...         sim.purge_object(FD_1)
-...         sim.purge_object(FD_2)
+...         workspace.purge_object(FD_1)
+...         workspace.purge_object(FD_2)
 
 ```
 
