@@ -71,10 +71,10 @@ Next we must add the additional pore-scale geometry models that will be required
 ``` python
 >>> geom['pore.diameter'] = 2*geom['pore.radius']
 >>> geom.models.add(propname='pore.area',
->>>                 model=op.Geometry.models.pore_area.spherical)
+...                 model=op.Geometry.models.pore_area.spherical)
 >>> geom['throat.diameter'] = 2*geom['throat.radius']
 >>> geom.models.add(propname='throat.area',
->>>                 model=op.Geometry.models.throat_area.cylinder)
+...                 model=op.Geometry.models.throat_area.cylinder)
 
 ```
 
@@ -84,7 +84,7 @@ Now we can add the Hagan-Poiseuille model to calculate hydraulic conductivity to
 
 ``` python
 >>> phys.models.add(propname='throat.hydraulic_conductance',
->>>                 model=op.Physics.models.hydraulic_conductance.hagen_poiseuille)
+...                 model=op.Physics.models.hydraulic_conductance.hagen_poiseuille)
 
 ```
 
