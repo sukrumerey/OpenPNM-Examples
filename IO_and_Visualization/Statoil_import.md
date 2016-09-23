@@ -106,7 +106,7 @@ The resulting pressure field can be visualized in Paraview, giving the following
 There are two ways to find K, the easy and the hard way.  The easy way is to use the ``find_effective_permeability`` method already implemented on the **StokesFlow** algorithm:
 
 ``` python
->>> K = flow.calc_effective_permeability()
+>>> K = flow.calc_eff_permeability()
 
 ```
 This gives a value of 4400 mD, which compares reasonably well with the value of 1200 mD reported in the 'Summary Results Berea.txt' file included with the extracted network file.  Presumably this reported K value was determined experimentally, in which case a difference of a few mD is quite good.  
@@ -125,4 +125,4 @@ The hard way to calculate K is the determine each of the values in Darcy's law m
 
 ```
 
-Using this approach the K values is 4.7 mD, which is essentially identical to the
+Using this approach the K values is 4.7 mD, which is essentially identical to the value found using ```calc_eff_permeability```.
