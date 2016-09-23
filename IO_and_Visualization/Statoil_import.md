@@ -61,8 +61,8 @@ Before proceeding, we must address a flaw in the way OpenPNM imports (soon to be
 
 ``` python
 >>> for item in pn.props():
->>>    if item not in ['throat.conns', 'pore.coords']:
->>>        geom.update({item: pn.pop(item)})
+...    if item not in ['throat.conns', 'pore.coords']:
+...        geom.update({item: pn.pop(item)})
 
 ```
 
