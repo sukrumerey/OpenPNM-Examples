@@ -6,8 +6,6 @@ python:
   - "3.4"
   - "3.5"
 
-cache: apt
-
 before_install:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
@@ -23,3 +21,6 @@ install:
 
 script:
   - python run_tests
+
+notifications:
+  email: false

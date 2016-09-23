@@ -36,7 +36,7 @@ The resulting network is shown below:
 
 Although it's not clear in the network image, there are a number of isolated and disconnected pores in the network.  These are either naturally part of the sandstone, or artifacts of the Maximal Ball algorithm.  In any event, these must be removed before proceeding since they cause problems for the matrix solver.  The easiest way to find these is to use the ```find_clusters2``` method, which returns an Np-long array of cluster numbers given a list of active throats.  If we merely send in the entire list of throats as the active list the disconnected clusters will be found.  We can then use this list to delete the isolated pores using the ```trim``` method:
 
-```python
+``` python
 >>> clusters = pn.find_clusters2(mask=pn.Ts >= 0)
 >>> pn.trim(pores=clusters > 0)
 
@@ -50,7 +50,7 @@ Although it's not clear in the network image, there are a number of isolated and
 
 In order to conduct a permeability simulation we must define a **Phase** object to manage the fluid properties, and **Physics** object to manage the pore-scale transport models (i.e. Hagan-Poiseuille equation), and **Geometry** model to calculate the necessary size information.
 
-```python
+``` python
 >>> geom = op.Geometry.GenericGeometry(network=pn, pores=pn.Ps, throats=pn.Ts)
 >>> water = op.Phases.Water(network=pn)
 >>> phys = op.Physics.GenericPhysics(network=pn, phase=water, geometry=geom)
@@ -59,16 +59,16 @@ In order to conduct a permeability simulation we must define a **Phase** object 
 
 Before proceeding, we must address a flaw in the way OpenPNM imports (soon to be addressed).  Upon importing a file, ALL the data are stored on the **Network** object, including geometrical information that ought to be stored on a **Geometry**.  It's very easy to move these values to ```geom```:
 
-```python
+``` python
 >>> for item in pn.props():
->>>    if item not in ['throat.conns', 'pore.coords']:
->>>        geom[item] = pn.pop(item)
+...    if item not in ['throat.conns', 'pore.coords']:
+...        geom.update({item: net.pop(item)})
 
 ```
 
 Next we must add the additional pore-scale geometry models that will be required by the Hagan-Poiseuille model, namely the pore and throat cross-sectional area, which use diameter instead of radius:
 
-```python
+``` python
 >>> geom['pore.diameter'] = 2*geom['pore.radius']
 >>> geom.models.add(propname='pore.area',
 >>>                 model=op.Geometry.models.pore_area.spherical)
@@ -82,7 +82,7 @@ Next we must add the additional pore-scale geometry models that will be required
 
 Now we can add the Hagan-Poiseuille model to calculate hydraulic conductivity to ```phys```:
 
-```python
+``` python
 >>> phys.models.add(propname='throat.hydraulic_conductance',
 >>>                 model=op.Physics.models.hydraulic_conductance.hagen_poiseuille)
 
@@ -90,7 +90,7 @@ Now we can add the Hagan-Poiseuille model to calculate hydraulic conductivity to
 
 Finally, we can create a **StokesFlow** object to run some fluid flow simulations:
 
-```python
+``` python
 >>> flow = op.Algorithms.StokesFlow(network=pn, phase=water)
 >>> flow.set_boundary_conditions(pores=pn.pores('inlets'), bctype='Dirichlet', bcvalue=200000)
 >>> flow.set_boundary_conditions(pores=pn.pores('outlets'), bctype='Dirichlet', bcvalue=100000)
@@ -105,7 +105,7 @@ The resulting pressure field can be visualized in Paraview, giving the following
 
 There are two ways to find K, the easy and the hard way.  The easy way is to use the ``find_effective_permeability`` method already implemented on the **StokesFlow** algorithm:
 
-```python
+``` python
 >>> K = flow.find_effective_permeability()
 
 ```
@@ -113,7 +113,7 @@ This gives a value of 4400 mD, which compares reasonably well with the value of 
 
 The hard way to calculate K is the determine each of the values in Darcy's law manually and solve for K, such that K = Q*mu*L/(delta_P*A).
 
-```python
+``` python
 >>> mu = sp.mean(water['pore.viscosity'])
 >>> delta_P = 100000
 >>> # Using the rate method of the StokesFlow algorithm
