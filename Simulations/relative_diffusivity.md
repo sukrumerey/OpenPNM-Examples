@@ -117,7 +117,6 @@ Now for each invasion step we cycle through the principle directions and create 
 
 ``` python
 >>> for Pc in inv_points:
->>>     #Update Saturation and Conductances
 >>>     OP_1.return_results(Pc = Pc)
 >>>     phys_air.regenerate()
 >>>     phys_water.regenerate()
