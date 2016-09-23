@@ -54,6 +54,7 @@ In order to conduct a permeability simulation we must define a **Phase** object 
 >>> geom = op.Geometry.GenericGeometry(network=pn, pores=pn.Ps, throats=pn.Ts)
 >>> water = op.Phases.Water(network=pn)
 >>> phys = op.Physics.GenericPhysics(network=pn, phase=water, geometry=geom)
+
 ```
 
 Before proceeding, we must address a flaw in the way OpenPNM imports (soon to be addressed).  Upon importing a file, ALL the data are stored on the **Network** object, including geometrical information that ought to be stored on a **Geometry**.  It's very easy to move these values to ```geom```:

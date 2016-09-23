@@ -127,22 +127,19 @@ Now for each invasion step we cycle through the principle directions and create 
 >>>     print("Capillary Pressure: "+str(Pc)+", Saturation: "+str(this_sat/tot_vol))
 >>>     for bound_increment in range(len(bounds)):
 >>>         BC1_pores = pn.pores(labels=bounds[bound_increment][0]+'_boundary')
->>>         BC2_pores = pn.pores(labels=bounds[bound_increment][1]+'_boundary')
->>>         #Fickian Diffusion Air
+>>>         BC2_pores = pn.pores(labels=bounds[bound_increment][1]+'_boundary
 >>>         FD_1 = OpenPNM.Algorithms.FickianDiffusion(network=pn,phase=air)
 >>>         FD_1.set_boundary_conditions(bctype='Dirichlet',bcvalue=0.6,pores=BC1_pores)
 >>>         FD_1.set_boundary_conditions(bctype='Dirichlet',bcvalue=0.2,pores=BC2_pores)
 >>>         FD_1.run(conductance = 'conduit_diffusive_conductance')
 >>>         eff_diff = FD_1.calc_eff_diffusivity()
 >>>         diff_air[str(bound_increment)].append(eff_diff)
->>>         #Fickian Diffusion Water
 >>>         FD_2 = OpenPNM.Algorithms.FickianDiffusion(network=pn,phase=water)
 >>>         FD_2.set_boundary_conditions(bctype='Dirichlet',bcvalue=0.6,pores=BC1_pores)
 >>>         FD_2.set_boundary_conditions(bctype='Dirichlet',bcvalue=0.2,pores=BC2_pores)
 >>>         FD_2.run(conductance = 'conduit_diffusive_conductance')
 >>>         eff_diff = FD_2.calc_eff_diffusivity()
 >>>         diff_water[str(bound_increment)].append(eff_diff)
->>>         #Purge Diffusion Objects
 >>>         sim.purge_object(FD_1)
 >>>         sim.purge_object(FD_2)
 
