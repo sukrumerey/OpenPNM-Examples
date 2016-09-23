@@ -115,7 +115,7 @@ Now we create some variables to store our data in for each principle direction (
 Now for each invasion step we cycle through the principle directions and create ``FickianDiffusion`` objects for each phase and calculate the effective diffusivity.
 
 
-``` python
+```python
 >>> for Pc in inv_points:
 >>>     OP_1.return_results(Pc = Pc)
 >>>     phys_air.regenerate()
@@ -126,7 +126,6 @@ Now for each invasion step we cycle through the principle directions and create 
 >>>     sat.append(this_sat)
 >>>     print("Capillary Pressure: "+str(Pc)+", Saturation: "+str(this_sat/tot_vol))
 >>>     for bound_increment in range(len(bounds)):
->>>         #boundary pores
 >>>         BC1_pores = pn.pores(labels=bounds[bound_increment][0]+'_boundary')
 >>>         BC2_pores = pn.pores(labels=bounds[bound_increment][1]+'_boundary')
 >>>         #Fickian Diffusion Air

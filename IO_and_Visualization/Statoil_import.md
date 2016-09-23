@@ -51,9 +51,9 @@ Although it's not clear in the network image, there are a number of isolated and
 In order to conduct a permeability simulation we must define a **Phase** object to manage the fluid properties, and **Physics** object to manage the pore-scale transport models (i.e. Hagan-Poiseuille equation), and **Geometry** model to calculate the necessary size information.
 
 ```python
->>> geom = op.GenericGeometry(network=pn, pores=pn.Ps, throats=pn.Ts)
-water = op.Phases.Water(network=pn)
-phys = op.Physics.GenericPhysics(network=pn, phase=water, geometry=geom)
+>>> geom = op.Geometry.GenericGeometry(network=pn, pores=pn.Ps, throats=pn.Ts)
+>>> water = op.Phases.Water(network=pn)
+>>> phys = op.Physics.GenericPhysics(network=pn, phase=water, geometry=geom)
 ```
 
 Before proceeding, we must address a flaw in the way OpenPNM imports (soon to be addressed).  Upon importing a file, ALL the data are stored on the **Network** object, including geometrical information that ought to be stored on a **Geometry**.  It's very easy to move these values to ```geom```:
@@ -124,4 +124,4 @@ The hard way to calculate K is the determine each of the values in Darcy's law m
 
 ```
 
-Using this approach the K values is 4.7 mD, which is essentially identical to the 
+Using this approach the K values is 4.7 mD, which is essentially identical to the
