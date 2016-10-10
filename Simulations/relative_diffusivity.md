@@ -47,18 +47,10 @@ We must also create the **Phase** objects, for our purposes the standard ``air``
 For this simulation the standard physics object can be used as it contains capillary pressure for use in the ``OrdinaryPercolation`` algorithm and diffusive conductance for use in the ``FickianDiffusion`` algorithm.
 
 ``` python
->>> phys_air = OpenPNM.Physics.Standard(network=pn,
-...                                     phase=air,
-...                                     pores=Ps,
-...                                     throats=Ts,
-...                                     dynamic_data=True,
-...                                     name='standard_air_physics')
->>> phys_water = OpenPNM.Physics.Standard(network=pn,
-...                                       phase=water,
-...                                       pores=Ps,
-...                                       throats=Ts,
-...                                       dynamic_data=True,
-...                                       name='standard_water_physics')
+>>> phys_air = OpenPNM.Physics.Standard(network=pn, phase=air, pores=Ps,
+...                                     throats=Ts)
+>>> phys_water = OpenPNM.Physics.Standard(network=pn, phase=water, pores=Ps,
+...                                       throats=Ts)
 
 ```
 ## Set up and run the Ordinary Percolation Algorithm
@@ -127,16 +119,20 @@ Now for each invasion step we cycle through the principle directions and create 
 ...     for bound_increment in range(len(bounds)):
 ...         BC1_pores = pn.pores(labels=bounds[bound_increment][0]+'_boundary')
 ...         BC2_pores = pn.pores(labels=bounds[bound_increment][1]+'_boundary')
-...         FD_1 = OpenPNM.Algorithms.FickianDiffusion(network=pn,phase=air)
-...         FD_1.set_boundary_conditions(bctype='Dirichlet',bcvalue=0.6,pores=BC1_pores)
-...         FD_1.set_boundary_conditions(bctype='Dirichlet',bcvalue=0.2,pores=BC2_pores)
-...         FD_1.run(conductance = 'conduit_diffusive_conductance')
+...         FD_1 = OpenPNM.Algorithms.FickianDiffusion(network=pn, phase=air)
+...         FD_1.set_boundary_conditions(bctype='Dirichlet', bcvalue=0.6,
+...                                      pores=BC1_pores)
+...         FD_1.set_boundary_conditions(bctype='Dirichlet', bcvalue=0.2,
+...                                      pores=BC2_pores)
+...         FD_1.run(conductance='conduit_diffusive_conductance')
 ...         eff_diff = FD_1.calc_eff_diffusivity()
 ...         diff_air[str(bound_increment)].append(eff_diff)
-...         FD_2 = OpenPNM.Algorithms.FickianDiffusion(network=pn,phase=water)
-...         FD_2.set_boundary_conditions(bctype='Dirichlet',bcvalue=0.6,pores=BC1_pores)
-...         FD_2.set_boundary_conditions(bctype='Dirichlet',bcvalue=0.2,pores=BC2_pores)
-...         FD_2.run(conductance = 'conduit_diffusive_conductance')
+...         FD_2 = OpenPNM.Algorithms.FickianDiffusion(network=pn, phase=water)
+...         FD_2.set_boundary_conditions(bctype='Dirichlet', bcvalue=0.6,
+...                                      pores=BC1_pores)
+...         FD_2.set_boundary_conditions(bctype='Dirichlet', bcvalue=0.2,
+...                                      pores=BC2_pores)
+...         FD_2.run(conductance='conduit_diffusive_conductance')
 ...         eff_diff = FD_2.calc_eff_diffusivity()
 ...         diff_water[str(bound_increment)].append(eff_diff)
 ...         workspace.purge_object(FD_1)
@@ -144,13 +140,13 @@ Now for each invasion step we cycle through the principle directions and create 
 
 ```
 
-The return_results() method updates the two **Phase** objects with the occupancy at the given capillary pressure (Pc). The **Physics** objects are then regenerated to re-calculate the ``conduit_diffusive_conductance`` property.
+The ```return_results``` method updates the two **Phase** objects with the occupancy at the given capillary pressure (Pc). The **Physics** objects are then regenerated to re-calculate the ```conduit_diffusive_conductance``` property.
 
 > **Note** :  Six Diffusion algorithm objects could have been created outside the loop and then run over and over with the updated conductance values and this would possibly save some computational time but is not as nice to code. Instead the objects are purged and redefined with updated boundary pores inside another for loop.
 
 ## Plot the Relative Diffusivity Curves for each direction and Phase
 
-Now tidy up the data converting them into numpy arrays for easy plotting and manipulation and normalize the results by the single phase values:
+Now tidy up the data converting them into Numpy arrays for easy plotting and manipulation and normalize the results by the single phase values:
 
 ``` python
 >>> sat=np.asarray(sat)
