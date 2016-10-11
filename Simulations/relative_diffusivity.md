@@ -10,7 +10,6 @@ This example shows you how to calculate a transport property relative to the sat
 >>> import matplotlib.pyplot as plt
 >>> workspace = OpenPNM.Base.Workspace()
 >>> workspace.clear()
->>> workspace.loglevel = 30 # Adjust log level to suppress messages
 
 ```
 Next create a **Network** object with a cubic topology and lattice spacing of 25 microns and add boundary pores
@@ -117,7 +116,6 @@ Now for each invasion step we cycle through the principle directions and create 
 ...     this_sat += np.sum(pn["pore.volume"][water["pore.occupancy"] == 1])
 ...     this_sat += np.sum(pn["throat.volume"][water["throat.occupancy"] == 1])
 ...     sat.append(this_sat)
-...     print("Capillary Pressure: "+str(Pc)+", Saturation: "+str(this_sat/tot_vol))
 ...     for bound_increment in range(len(bounds)):
 ...         BC1_pores = pn.pores(labels=bounds[bound_increment][0]+'_boundary')
 ...         BC2_pores = pn.pores(labels=bounds[bound_increment][1]+'_boundary')
