@@ -9,13 +9,14 @@ This example shows you how to calculate a transport property relative to the sat
 >>> import numpy as np
 >>> import matplotlib.pyplot as plt
 >>> workspace = OpenPNM.Base.Workspace()
->>> workspace.clear()
+>>> workspace.clear()workspace
+>>> workspace.loglevel = 30 # Adjust log level to suppress messages
 
 ```
 Next create a **Network** object with a cubic topology and lattice spacing of 25 microns and add boundary pores
 
 ``` python
->>> pn = OpenPNM.Network.Cubic(shape=[10, 10, 10], spacing=2.5e-5)
+>>> pn = OpenPNM.Network.Cubic(shape=[10, 10, 10], spacing=4.0e-5)
 >>> pn.add_boundaries()
 
 ```
@@ -23,12 +24,12 @@ Next create a **Network** object with a cubic topology and lattice spacing of 25
 Next create a **Geometry** to manage the pore and throat size information.  A **Geometry** can span over a part of the **Network** only, so we need to specify to which pores and throats this **Geometry** object should apply. For this example, we want one **Geometry** to apply to the internal pores and a different one to the boundary pores:
 
 ``` python
->>> Ps = pn.pores('boundary',mode='not')
+>>> Ps = pn.pores('boundary', mode='not')
 >>> Ts = pn.find_neighbor_throats(pores=Ps,mode='intersection',flatten=True)
 >>> geom = OpenPNM.Geometry.Toray090(network=pn, pores=Ps, throats=Ts)
 >>> Ps = pn.pores('boundary')
 >>> Ts = pn.find_neighbor_throats(pores=Ps,mode='not_intersection')
->>> boun = OpenPNM.Geometry.Boundary(network=pn,pores=Ps,throats=Ts)
+>>> boun = OpenPNM.Geometry.Boundary(network=pn, pores=Ps, throats=Ts)
 
 ```
 
@@ -37,8 +38,8 @@ The ``Toray090`` **Geometry** is a predefined class that applies Weibull distrib
 We must also create the **Phase** objects, for our purposes the standard ``air`` and ``water`` phase classes provided are fine:
 
 ``` python
->>> air = OpenPNM.Phases.Air(network = pn, name = 'air')
->>> water = OpenPNM.Phases.Water(network = pn, name = 'water')
+>>> air = OpenPNM.Phases.Air(network=pn, name='air')
+>>> water = OpenPNM.Phases.Water(network=pn, name='water')
 
 ```
 
@@ -67,7 +68,7 @@ In order to simulate a partially saturated material we first run an ``OrdinaryPe
 >>> inlets = pn.pores('bottom_boundary')
 >>> step = 2
 >>> used_inlets = [inlets[x] for x in range(0, len(inlets), step)]
->>> OP_1.run(inlets=used_inlets,inv_points=inv_points)
+>>> OP_1.run(inlets=used_inlets, inv_points=inv_points)
 >>> OP_1.return_results()
 
 ```
@@ -100,7 +101,7 @@ Now we create some variables to store our data in for each principle direction (
 >>> diff_air = {'0': [], '1': [], '2': []}
 >>> diff_water = {'0': [], '1': [], '2': []}
 >>> sat=[]
->>> tot_vol = np.sum(pn["pore.volume"])+np.sum(pn["throat.volume"])
+>>> tot_vol = np.sum(pn["pore.volume"]) + np.sum(pn["throat.volume"])
 
 ```
 
@@ -109,12 +110,12 @@ Now for each invasion step we cycle through the principle directions and create 
 
 ``` python
 >>> for Pc in inv_points:
-...     OP_1.return_results(Pc = Pc)
+...     OP_1.return_results(Pc=Pc)
 ...     phys_air.regenerate()
 ...     phys_water.regenerate()
 ...     this_sat = 0
-...     this_sat += np.sum(pn["pore.volume"][water["pore.occupancy"]==1])
-...     this_sat += np.sum(pn["throat.volume"][water["throat.occupancy"]==1])
+...     this_sat += np.sum(pn["pore.volume"][water["pore.occupancy"] == 1])
+...     this_sat += np.sum(pn["throat.volume"][water["throat.occupancy"] == 1])
 ...     sat.append(this_sat)
 ...     print("Capillary Pressure: "+str(Pc)+", Saturation: "+str(this_sat/tot_vol))
 ...     for bound_increment in range(len(bounds)):
