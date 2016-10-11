@@ -169,6 +169,7 @@ Now tidy up the data converting them into Numpy arrays for easy plotting and man
 Finally plot the results:
 
 ``` python
+>>> plt.ioff()  # Turn off automatic plotting
 >>> fig = plt.figure()
 >>> ax = fig.gca()
 >>> plots=[]
@@ -187,4 +188,7 @@ Finally plot the results:
 >>> ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 
 ```
+
+Finally, to draw the plot type ``fig.canvas.draw_idle()`` to get the following:
+
 ![](http://imgur.com/hEGXVyp.png)
