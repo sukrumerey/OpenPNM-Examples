@@ -47,12 +47,13 @@ We must also create the **Phase** objects, for our purposes the standard ``air``
 For this simulation the standard physics object can be used as it contains capillary pressure for use in the ``OrdinaryPercolation`` algorithm and diffusive conductance for use in the ``FickianDiffusion`` algorithm.
 
 ``` python
->>> phys_air = OpenPNM.Physics.Standard(network=pn, phase=air, pores=Ps,
-...                                     throats=Ts)
->>> phys_water = OpenPNM.Physics.Standard(network=pn, phase=water, pores=Ps,
-...                                       throats=Ts)
+>>> phys_air = OpenPNM.Physics.Standard(network=pn, phase=air, pores=pn.Ps,
+...                                     throats=pn.Ts)
+>>> phys_water = OpenPNM.Physics.Standard(network=pn, phase=water, pores=pn.Ps,
+...                                       throats=pn.Ts)
 
 ```
+
 ## Set up and run the Ordinary Percolation Algorithm
 In order to simulate a partially saturated material we first run an ``OrdinaryPercolation`` **Algorithm** which sequentially invades the network with the ``invading_phase`` based on the capillary pressure of the throats in the network. This allows us to inspect which pores and throats are occupied by which phase at various capillary pressures and this occupancy is used to calculate the multiphase diffusive conductance.
 
