@@ -59,15 +59,13 @@ In order to simulate a partially saturated material we first run an ``OrdinaryPe
 
 ``` python
 >>> bounds = [['front', 'back'], ['left', 'right'], ['top', 'bottom']]
->>> npts=101
->>> inv_points = np.linspace(0,10000,npts)
 >>> OP_1 = OpenPNM.Algorithms.OrdinaryPercolation(network=pn,
 ...                                               invading_phase=water,
 ...                                               defending_phase=air)
 >>> inlets = pn.pores('bottom_boundary')
 >>> step = 2
 >>> used_inlets = [inlets[x] for x in range(0, len(inlets), step)]
->>> OP_1.run(inlets=used_inlets, inv_points=inv_points)
+>>> OP_1.run(inlets=used_inlets)
 >>> OP_1.return_results()
 
 ```
@@ -108,7 +106,7 @@ Now for each invasion step we cycle through the principle directions and create 
 
 
 ``` python
->>> for Pc in inv_points:
+>>> for Pc in np.unique(OP_1['pore.inv_Pc']):
 ...     OP_1.return_results(Pc=Pc)
 ...     phys_air.regenerate()
 ...     phys_water.regenerate()
@@ -179,13 +177,13 @@ Finally plot the results:
 >>> plots.append(plt.plot(sat,rel_diff_water_x,'*-r',label='Drw_x'))
 >>> plots.append(plt.plot(sat,rel_diff_water_y,'*-g',label='Drw_y'))
 >>> plots.append(plt.plot(sat,rel_diff_water_z,'*-b',label='Drw_z'))
->>> plt.xlabel('Liquid Water Saturation')
->>> plt.ylabel('Relative Diffusivity')
+>>> h = plt.xlabel('Liquid Water Saturation')
+>>> h = plt.ylabel('Relative Diffusivity')
 >>> handles, labels = ax.get_legend_handles_labels()
->>> ax.legend(handles, labels,loc=1)
+>>> h = ax.legend(handles, labels,loc=1)
 >>> box = ax.get_position()
->>> ax.set_position([box.x0, box.y0, box.width * 0.9, box.height])
->>> ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+>>> h = ax.set_position([box.x0, box.y0, box.width * 0.9, box.height])
+>>> h = ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 
 ```
 
