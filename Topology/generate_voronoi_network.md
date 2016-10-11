@@ -15,12 +15,16 @@ This will be a general layout to complete this simulation:
 
 ## Setting up Network and Geometry
 
-We first import the OpenPNM code.
+We first import the OpenPNM code:
 
 ``` python
 >>> import OpenPNM
+>>> workspace = OpenPNM.Base.Workspace()
+>>> workspace.clear()
 
 ```
+
+We load and clear the workspace manager to avoid name conflicts, but this is not usually necessary.  
 
 To begin our simulation, we must first generate our random network and geometry.  This includes:
 

@@ -31,121 +31,100 @@ The resulting network is shown below:
 
 ![](http://i.imgur.com/771T36M.png)
 
-## Adding Boundary Pores
 
-Upon importing these networks, OpenPNM performs 'optimizations' to make the network compatible.  The main problem is that the original network contains a large number of throats connecting actual internal pores to fictitious 'reservoir' pores.  OpenPNM strips away all these throats since 'headless throats' break the graph theory representation, then labels the real internal pores as either 'inlet' or 'outlet' if there were connected to one of these fictitious reservoirs.
+### Clean up network topology
 
-To re-add boundary pores, we can add two new pores to the network then connect them to the pores labelled 'inlet' or 'outlet'.  Start by identifying inlet pores by their label:
+Although it's not clear in the network image, there are a number of isolated and disconnected pores in the network.  These are either naturally part of the sandstone, or artifacts of the Maximal Ball algorithm.  In any event, these must be removed before proceeding since they cause problems for the matrix solver.  The easiest way to find these is to use the ```find_clusters2``` method, which returns an Np-long array of cluster numbers given a list of active throats.  If we merely send in the entire list of throats as the active list the disconnected clusters will be found.  We can then use this list to delete the isolated pores using the ```trim``` method:
 
 ``` python
->>> Pin = pn.pores('inlets')
+>>> clusters = pn.find_clusters2(mask=pn.Ts >= 0)
+>>> pn.trim(pores=clusters > 0)
 
 ```
 
-For the inlet reservoir, a new pore must be created then connected to the pores on the inlet face:
+## Calculating Permeability of the Core
+
+> **Note:** Upon importing these networks, OpenPNM performs 'optimizations' to make the network compatible.  The main problem is that the original network contains a large number of throats connecting actual internal pores to fictitious 'reservoir' pores.  OpenPNM strips away all these throats since 'headless throats' break the graph theory representation.  OpenPNM then labels the real internal pores as either 'inlet' or 'outlet' if there were connected to one of these fictitious reservoirs.  It is possible to add a new pore to each end of the domain and stitch it to the internal pores labelled 'inlet' and 'outlet', but this is a bit complex. For the sake of this example it is acceptable to apply boundary conditions directly to the 'inlet' and 'outlet' pores.  
+
+### Setup Necessary Geometry, Phase, and Physics Objects
+
+In order to conduct a permeability simulation we must define a **Phase** object to manage the fluid properties, and **Physics** object to manage the pore-scale transport models (i.e. Hagan-Poiseuille equation), and **Geometry** model to calculate the necessary size information.
 
 ``` python
->>> XYZ = sp.mean(pn['pore.coords'][Pin], axis=0)
->>> pn.extend(pore_coords=XYZ, labels='inlet_reservoir')
+>>> geom = op.Geometry.GenericGeometry(network=pn, pores=pn.Ps, throats=pn.Ts)
+>>> water = op.Phases.Water(network=pn)
+>>> phys = op.Physics.GenericPhysics(network=pn, phase=water, geometry=geom)
 
 ```
 
-Now we want to connect this reservoir pore to the pores on the inlet face of the network.  First we need to identify the ID number of the new reservoir pore just created:
+Before proceeding, we must address a flaw in the way OpenPNM imports (soon to be addressed).  Upon importing a file, ALL the data are stored on the **Network** object, including geometrical information that ought to be stored on a **Geometry**.  It's very easy to move these values to ```geom```:
 
 ``` python
->>> N = pn.pores('inlet_reservoir')
+>>> for item in pn.props():
+...    if item not in ['throat.conns', 'pore.coords']:
+...        geom.update({item: pn.pop(item)})
 
 ```
 
-Next we need to create a list of pore-to-pore connections between the reservoir pore and the inlet pores.  The details of OpenPNM topological representation are given elsewhere, but basically pores 'a' and 'b' are indicated as connected by adding a row to the ``'throat.conns'`` array containing [a, b].  The addition of new throats is a bit more involved than that, so a method is available on Network objects to handle this called ``extend``.  We only need to send in the list of new pore-to-pore connections:
+Next we must add the additional pore-scale geometry models that will be required by the Hagan-Poiseuille model, namely the pore and throat cross-sectional area, which use diameter instead of radius:
 
 ``` python
->>> conns = sp.vstack([Pin, N*sp.ones_like(Pin)]).T
->>> pn.extend(throat_conns=conns, labels='to_inlet_reservoir')
+>>> geom['pore.diameter'] = 2*geom['pore.radius']
+>>> geom.models.add(propname='pore.area',
+...                 model=op.Geometry.models.pore_area.spherical)
+>>> geom['throat.diameter'] = 2*geom['throat.radius']
+>>> geom.models.add(propname='throat.area',
+...                 model=op.Geometry.models.throat_area.cylinder)
 
 ```
 
-Finally, we want to offset the inlet reservoir pore away from the internal network pores, but we don't necessarily know which way to move it or by how much.  The following code checks the x, y and z coordinates of the inlet pores and detects which dimension has the least spread, then offsets the reservoir pore:
+### Run StokesFlow Algorithm
+
+Now we can add the Hagan-Poiseuille model to calculate hydraulic conductivity to ```phys```:
 
 ``` python
->>> extents = sp.ptp(pn['pore.coords'][Pin], axis=0)
->>> offset_dim = sp.argmin(extents)
->>> pn['pore.coords'][-1, offset_dim] = pn['pore.coords'][-1, offset_dim] - \
-...                                     extents[offset_dim]
+>>> phys.models.add(propname='throat.hydraulic_conductance',
+...                 model=op.Physics.models.hydraulic_conductance.hagen_poiseuille)
 
 ```
 
-Now repeat for the outlet reservoir:
+Finally, we can create a **StokesFlow** object to run some fluid flow simulations:
 
 ``` python
->>> Pout = pn.pores('outlets')
->>> XYZ = sp.mean(pn['pore.coords'][Pout], axis=0)
->>> pn.extend(pore_coords=XYZ, labels='outlet_reservoir')
->>> N = pn.pores('outlet_reservoir')
->>> conns = sp.vstack([Pout, N*sp.ones_like(Pout)]).T
->>> pn.extend(throat_conns=conns, labels='to_outlet_reservoir')
->>> extents = sp.ptp(pn['pore.coords'][Pout], axis=0)
->>> offset_dim = sp.argmin(extents)
->>> pn['pore.coords'][-1, offset_dim] = pn['pore.coords'][-1, offset_dim] + \
-...                                     extents[offset_dim]
+>>> flow = op.Algorithms.StokesFlow(network=pn, phase=water)
+>>> flow.set_boundary_conditions(pores=pn.pores('inlets'), bctype='Dirichlet', bcvalue=200000)
+>>> flow.set_boundary_conditions(pores=pn.pores('outlets'), bctype='Dirichlet', bcvalue=100000)
+>>> flow.run()
+>>> flow.return_results()
 
 ```
 
-The new reservoir pores can now be seen in Paraview, by exporting a 'vtp' file:
+The resulting pressure field can be visualized in Paraview, giving the following:
+
+![](https://i.imgur.com/AIK6FbJ.png)
+
+### Determination of Permeability Coefficient
+
+There are two ways to find K, the easy and the hard way.  The easy way is to use the ``find_effective_permeability`` method already implemented on the **StokesFlow** algorithm:
 
 ``` python
->>> op.export_data(network=pn, filename='imported_statoil_with_reservoirs')
+>>> K = flow.calc_eff_permeability()
+
+```
+This gives a value of 4400 mD, which compares reasonably well with the value of 1200 mD reported in the 'Summary Results Berea.txt' file included with the extracted network file.  Presumably this reported K value was determined experimentally, in which case a difference of a few mD is quite good.  
+
+The hard way to calculate K is the determine each of the values in Darcy's law manually and solve for K, such that K = Q*mu*L/(delta_P*A).
+
+``` python
+>>> mu = sp.mean(water['pore.viscosity'])
+>>> delta_P = 100000
+>>> # Using the rate method of the StokesFlow algorithm
+>>> Q = sp.absolute(flow.rate(pores=pn.pores('inlets')))
+>>> # Because we know the inlets and outlets are at x=0 and x=X
+>>> Lx = sp.amax(pn['pore.coords'][:, 0]) - sp.amin(pn['pore.coords'][:, 0])
+>>> A = Lx*Lx  # Since the network is cubic Lx = Ly = Lz
+>>> K = Q*mu*Lx/(delta_P*A)
 
 ```
 
-Since we've added two new pores and many new throats, the network is now incomplete because these have no physical properties. This can be observed by printing the network:
-
-``` python
-print(pn)
-# ------------------------------------------------------------
-OpenPNM.Network.GenericNetwork: 	berea
-# ------------------------------------------------------------
-#     Properties                          Valid Values
-# ------------------------------------------------------------
-1     pore.coords                          6300 / 6300
-2     pore.radius                          6298 / 6300
-3     pore.shape_factor                    6298 / 6300
-4     pore.volume                          6298 / 6300
-5     throat.conns                        12545 / 12545
-6     throat.length                       12098 / 12545
-7     throat.radius                       12098 / 12545
-8     throat.shape_factor                 12098 / 12545
-9     throat.total_length                 12098 / 12545
-10    throat.volume                       12098 / 12545
-# ------------------------------------------------------------
-#     Labels                              Assigned Locations
-# ------------------------------------------------------------
-1     pore.all                            6300
-2     pore.clay_volume                    0
-3     pore.inlet_reservoir                1
-4     pore.inlets                         201
-5     pore.outlet_reservoir               1
-6     pore.outlets                        246
-7     throat.all                          12545
-8     throat.clay_volume                  0
-# ------------------------------------------------------------
-
-```
-
-As can be seen, properties such as 'pore.radius' and 'thorat.length' have fewer valid values than 'pore.coords' and 'throats.conns', which are complete.  Let's manually add properties to these pores and throats:
-
-``` python
->>> P = pn.pores('*reservoir')  # Use wildcard to find added reservoir pores
->>> pn['pore.radius'][P] = 0
->>> pn['pore.volume'][P] = 0
->>> pn['pore.shape_factor'][P] = 0
->>> T = pn.throats('*reservoir')  # Find throats to reservoir pores
->>> pn['throat.length'][T] = 0
->>> pn['throat.radius'][T] = 100  # A large number to give low resistance
->>> pn['throat.shape_factor'][T] = 0
->>> pn['throat.total_length'][T] = 0
->>> pn['throat.volume'][T] = 0
-
-```
-
-At this point, the network is ready for some simulations.
+Using this approach the K values is 4.7 mD, which is essentially identical to the value found using ```calc_eff_permeability```.
