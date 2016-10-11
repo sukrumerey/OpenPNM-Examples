@@ -9,7 +9,7 @@ This example shows you how to calculate a transport property relative to the sat
 >>> import numpy as np
 >>> import matplotlib.pyplot as plt
 >>> workspace = OpenPNM.Base.Workspace()
->>> workspace.clear()workspace
+>>> workspace.clear()
 >>> workspace.loglevel = 30 # Adjust log level to suppress messages
 
 ```
