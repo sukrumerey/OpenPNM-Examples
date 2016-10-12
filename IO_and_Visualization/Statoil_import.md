@@ -37,8 +37,7 @@ The resulting network is shown below:
 Although it's not clear in the network image, there are a number of isolated and disconnected pores in the network.  These are either naturally part of the sandstone, or artifacts of the Maximal Ball algorithm.  In any event, these must be removed before proceeding since they cause problems for the matrix solver.  The easiest way to find these is to use the ```find_clusters2``` method, which returns an Np-long array of cluster numbers given a list of active throats.  If we merely send in the entire list of throats as the active list the disconnected clusters will be found.  We can then use this list to delete the isolated pores using the ```trim``` method:
 
 ``` python
->>> clusters = pn.find_clusters2(mask=pn.Ts >= 0)
->>> pn.trim(pores=clusters > 0)
+>>> pn.trim(pn.check_network_health()['trim_pores'])
 
 ```
 
