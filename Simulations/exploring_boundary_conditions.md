@@ -8,10 +8,12 @@ Start by generating a basic cubic network and the other required components:
 
 ``` python
 >>> import OpenPNM
+>>> workspace = OpenPNM.Base.Workspace()
+>>> workspace.clear()  # Clear existing simulations to avoid conflicts
 >>> pn = OpenPNM.Network.Cubic(name='net', shape=[10,10,10], spacing=0.0001)
 >>> pn.add_boundary_pores(pores=pn.pores('top'), offset=[0, 0, 0.0001],
 ...                       apply_label='top_boundary')
->>> pn.add_boundary_pores(pores=pn.pores('top'), offset=[0, 0, -0.0001],
+>>> pn.add_boundary_pores(pores=pn.pores('bottom'), offset=[0, 0, -0.0001],
 ...                       apply_label='bottom_boundary')
 
 ```
@@ -107,7 +109,7 @@ The code below sets the total rate leaving a group of pores cumulatively.  Note 
 
 ``` python
 >>> BC3_pores = [50,51,52,53,54,40,41,42,43,44]
->>> alg.set_boundary_conditions(bctype='Neumann_group', bcvalue=-5e-3, pores=BC3_pores)
+>>> alg.set_boundary_conditions(bctype='Neumann_group', bcvalue=-5e-8, pores=BC3_pores)
 >>> alg.run(conductance='throat.diffusive_conductance')
 >>> alg.return_results()
 
