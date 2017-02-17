@@ -8,6 +8,8 @@ Start by generating a basic cubic network and the other required components:
 
 ``` python
 >>> import OpenPNM
+>>> workspace = OpenPNM.Base.Workspace()
+>>> workspace.clear()  # Clear existing simulations to avoid conflicts
 >>> pn = OpenPNM.Network.Cubic(name='net', shape=[10,10,10], spacing=0.0001)
 >>> pn.add_boundary_pores(pores=pn.pores('top'), offset=[0, 0, 0.0001],
 ...                       apply_label='top_boundary')
