@@ -15,12 +15,16 @@ This will be a general layout to complete this simulation:
 
 ## Setting up Network and Geometry
 
-We first import the OpenPNM code.
+We first import the OpenPNM code:
 
 ``` python
 >>> import OpenPNM
+>>> workspace = OpenPNM.Base.Workspace()
+>>> workspace.clear()
 
 ```
+
+We load and clear the workspace manager to avoid name conflicts, but this is not usually necessary.  
 
 To begin our simulation, we must first generate our random network and geometry.  This includes:
 
@@ -130,8 +134,8 @@ Now we are ready to set up our phases (water and air) and the physics correspond
 
 ``` python
 >>> #set up
->>> air = OpenPNM.Phases.Air(network=pn, name='air')
->>> water = OpenPNM.Phases.Water(network=pn, name='water')
+>>> air = OpenPNM.Phases.Air(network=pn)
+>>> water = OpenPNM.Phases.Water(network=pn)
 
 ```
 
