@@ -10,7 +10,7 @@ Start by creating a network with a large lattice spacing:
 >>> import matplotlib.pyplot as pyplot
 >>> # Import OpenPNM and initialize the workspace manager
 >>> import OpenPNM as op
->>> sim = op.workspace()
+>>> sim = op.Base.workspace()
 >>> sim.clear()  # Clear the existing workspace (mostly for testing purposes)
 >>> coarse_net = op.Network.Cubic(shape=[10, 10, 10], spacing=0.00005)
 
