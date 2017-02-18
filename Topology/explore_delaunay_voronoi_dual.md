@@ -22,7 +22,7 @@ A quick visualization of this network can be accomplished using OpenPNM's built-
 
 ![](https://i.imgur.com/YDBtnFK.png)
 
-One central feature of these networks are the flat boundaries, which are essential when performing transport calculations since they provide well-defined control surfaces for calculating flux.  This flat surfaces are accomplished by reflecting the base points across each face prior to performing the tessellations.  This can lead to larger pores at the surfaces, which is addressed below.
+One central feature of these networks are the flat boundaries, which are essential when performing transport calculations since they provide well-defined control surfaces for calculating flux.  This flat surfaces are accomplished by reflecting the base points across each face prior to performing the tessellations.  
 
 ## Obtain a Solo Delaunay (or Voronoi) Network
 
@@ -82,11 +82,3 @@ With pore centers randomly distributed in space it becomes challenging to know w
 The resulting geometrical properties can be viewed with ```geom.plot_histograms()``` (note that each realization will differ slightly):
 
 ![](https://i.imgur.com/4XQTWfi.png)
-
-The above pore diameters were generated with the ```'delaunay'``` pores present, which would restrict their size in some cases.  These excess pores can be deleted and the pore diameter's can be recalculated:
-
-``` python
->>> sph.trim(pores=sph.pores('voronoi'))
->>> geom.models.regenerate()
-
-```
