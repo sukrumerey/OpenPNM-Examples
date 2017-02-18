@@ -55,7 +55,7 @@ Now that this topology is created, the next step would be to create *Geometry* o
 ...                                       pores=net.pores('secondary'),
 ...                                       throats=net.throats('secondary'))
 >>> geo_inter = op.Geometry.GenericGeometry(network=net,
-...                                         throats=net.throats('interconnect')
+...                                         throats=net.throats('interconnect'))
 
 ```
 
