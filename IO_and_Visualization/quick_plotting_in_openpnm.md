@@ -40,9 +40,9 @@ Next, let's add lines to the above plot indicating the throat connections. Again
 
 ``` python
 >>> Ts = net.throats('boundary', mode='not')
->>> fig = op.Network.tools.plot_connections(network=net, pores=Ts, fig=fig, c='b')
+>>> fig = op.Network.tools.plot_connections(network=net, throats=Ts, fig=fig, c='b')
 >>> Ts = net.throats('*boundary')
->>> fig = op.Network.tools.plot_connections(network=net, pores=Ts, fig=fig, c='r')
+>>> fig = op.Network.tools.plot_connections(network=net, throats=Ts, fig=fig, c='r')
 
 ```
 
