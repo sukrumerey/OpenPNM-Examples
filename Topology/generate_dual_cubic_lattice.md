@@ -7,7 +7,7 @@ As usual start by importing Scipy and OpenPNM:
 ``` python
 >>> import scipy as sp
 >>> import OpenPNM as op
->>> mgr = op.Base.Workspace()
+>>> mgr = op.Base.Workspace()  # Initialize a workspace object
 >>> mgr.clear()  # Really only necessary for testing purposes
 
 ```
@@ -15,38 +15,32 @@ As usual start by importing Scipy and OpenPNM:
 Let's create a *CubicDual* and visualize it in Paraview:
 
 ``` python
->>> net = op.Network.CubicDual(shape=[5, 5, 5])
+>>> net = op.Network.CubicDual(shape=[6, 6, 6])
 
 ```
 
-The resulting network has two sets of pores, labelled as blue and red in the image below.  By default, the main cubic lattice is referred to as the 'primary' network which is colored red, and the interpenetrating dual is referred to as the 'secondary' network shown in blue.  These names are used to label the pores and throats associated with each network.  These names can be changed by sending `label_1` and `label_2` arguments during initialization.  The throats connecting the 'primary' and 'secondary' pores are labelled 'interconnect', and they can be seen as the diagonal connections below.
+The resulting network has two sets of pores, labelled as blue and red in the image below.  By default, the main cubic lattice is referred to as the 'primary' network which is colored *blue*, and the interpenetrating dual is referred to as the 'secondary' network shown in *red*.  These names are used to label the pores and throats associated with each network.  These names can be changed by sending ```label_1``` and ```label_2``` arguments during initialization.  The throats connecting the 'primary' and 'secondary' pores are labelled 'interconnect', and they can be seen as the diagonal connections below.
 
 ![](https://i.imgur.com/3KRduQh.png)
 
-Inspection of this image shows that the 'primary' pores are located at the center of a unit cell with 'secondary' pores found on each corner.  'primary' and 'secondary' pores are connected to themselves in a standard 6-connected lattice, and connected to each other in the diagonal directions.  The figure below shows the connections in the primary (left), and secondary (right) networks, as well as the interconnections between them.
+Inspection of this image shows that the 'primary' pores are located at expected locations for a cubic network including on the faces of the cube, and 'secondary' pores are located at the interstitial locations.  There is one important nuance to note: Some of 'secondary' pores area also on the face, and are offset 1/2 a lattice spacing from the internal 'secondary' pores.  This means that each face of the network is a staggered tiling of 'primary' and 'secondary' pores.  
+
+The 'primary' and 'secondary' pores are connected to themselves in a standard 6-connected lattice, and connected to each other in the diagonal directions.  Unlike a regular *Cubic* network, it is not possible to specify more elaborate connectivity in the *CubicDual* networks since the throats of each network would be conceptually entangled.  The figure below shows the connections in the primary (left), and secondary (right) networks, as well as the interconnections between them.  
 
 ![](https://i.imgur.com/mVUhSP5.png)
 
-Using the labels is possible to query the number of each type of pore and throat on the network:
+Using the labels it is possible to query the number of each type of pore and throat on the network:
 
 ``` python
 >>> net.num_pores('primary')
-275
->>> net.num_pores('secondary')
 216
+>>> net.num_pores('secondary')
+275
 >>> net.num_throats('primary')
-450
->>> net.num_throats('secondary')
 540
+>>> net.num_throats('secondary')
+450
 >>> net.num_throats('interconnect')
 1600
-
-```
-
-There is one important nuance regarding the topology.  A standard cubic network with a shape of [5, 5, 5] has 125 pores. In this case, however, a [5, 5] layer of pores has been added to each face offset away from the domain by 1/2 a lattice spacing.  This puts them on the same plane as the 'secondary' network pores, and creates a flat surface at the boundary of the domain.  These pores are accordingly labelled 'surface':
-
-``` python
->>> net.num_pores(['primary', 'surface'], mode='intersection')
-150
 
 ```
