@@ -52,9 +52,9 @@ OpenPNM includes an assortment of tools for manipulating network topology.  Thes
 >>> CL['pore.coords'] -= [0, 0, 0.00002*5]
 >>> # Finally, send both networks to stitch which will stitch CL onto GDL
 >>> pn = op.Utilities.topology.stitch(network=GDL, donor=CL,
-                                      P_network=GDL.pores('bottom'),
-                                      P_donor=GDL.pores('top'),
-                                      len_max=0.00003)
+...                                   P_network=GDL.pores('bottom'),
+...                                   P_donor=GDL.pores('top'),
+...                                   len_max=0.00003)
 
 ```
 
