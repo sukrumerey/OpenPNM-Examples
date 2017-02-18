@@ -30,27 +30,37 @@ It is simple to delete one network (or the other) by trimming all of the other n
 
 ``` python
 >>> pn.trim(pores=pn.pores('voronoi'))
->>> op.Network.tools.plot_connections(network=pn)
+>>> fig = op.Network.tools.plot_connections(network=pn)
 
 ```
 
 ## Create Random Networks of Spherical or Cylindrical Shape
 
-Many porous materials come in spherical or cylindrical shapes, such as catalyst pellets.  The ```DelaunayVoronoiDual``` Network class can produce these geometries by specifying the ```domain_size``` in cylindrical [r, z] or spherical [r] coordinates:  
+Many porous materials come in spherical or cylindrical shapes, such as catalyst pellets.  The ```DelaunayVoronoiDual``` Network class can produce these geometries by specifying the ```domain_size``` in cylindrical [r, z] or spherical [r] coordinates:
 
 ``` python
->>> cyl = op.Network.DelaunayVoronoiDual(num_points=100, domain_size=[1, 5])
->>> op.Network.tools.plot_connections(network = cyl,
-...                                   throats=cyl.throats('surface'))
->>> sph = op.Network.DelaunayVoronoiDual(num_points=100, domain_size=[2])
->>> op.Network.tools.plot_connections(network = sph,
-...                                   throats=sph.throats('surface'))
+>>> cyl = op.Network.DelaunayVoronoiDual(num_points=500, domain_size=[1, 5])
+>>> fig = op.Network.tools.plot_connections(network = cyl,
+...                                         throats=cyl.throats('surface'))
 
 ```
 
-## Create Networks with Spatial Distributions of Base points
+Which should yield this:
 
+![](http://i.imgur.com/zzegpym.png)
 
+``` python
+>>> sph = op.Network.DelaunayVoronoiDual(num_points=500, domain_size=[2])
+>>> fig = op.Network.tools.plot_connections(network = sph,
+...                                         throats=sph.throats('surface'))
+
+```
+
+Which should result in this:
+
+![](http://i.imgur.com/Lg9S8q1.png)
+
+Note that the cylindrical and spherical networks don't look very nice when too few points are used, so at least about 200 is recommended.  
 
 ## Assign Pore Sizes to the Random Network
 
