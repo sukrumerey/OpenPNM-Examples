@@ -76,6 +76,7 @@ With pore centers randomly distributed in space it becomes challenging to know w
 >>> geom.models.add(propname='throat.length', model=mod)
 >>> mod = op.Geometry.models.throat_diameter.minpore
 >>> geom.models.add(propname='throat.diameter', model=mod, factor=0.5)
+
 ```
 
 The resulting geometrical properties can be viewed with ```geom.plot_histograms()``` (note that each realization will differ slightly):
