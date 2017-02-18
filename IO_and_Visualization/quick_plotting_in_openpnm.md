@@ -29,7 +29,7 @@ Now let's use ```plot_coordinates``` to plot the pore centers in a 3D plot, star
 Note that the above call to ```plot_coordinates``` returns a figure handle ```fig```.  This can be passed into subsequent plotting methods to overlay points.
 
 ``` python
->>> Ps = pn.pores('*boundary')
+>>> Ps = net.pores('*boundary')
 >>> fig = op.Network.tools.plot_coordinates(network=net, pores=Ps, fig=fig, c='r')
 
 ```
@@ -39,9 +39,9 @@ Note that the above call to ```plot_coordinates``` returns a figure handle ```fi
 Next, let's add lines to the above plot indicating the throat connections. Again, by reusing the ```fig``` object we can overlay more information:
 
 ``` python
->>> Ts = pn.throats('internal')
+>>> Ts = net.throats('internal')
 >>> fig = op.Network.tools.plot_connections(network=net, pores=Ts, fig=fig, c='b')
->>> Ts = pn.throats('*boundary')
+>>> Ts = net.throats('*boundary')
 >>> fig = op.Network.tools.plot_connections(network=net, pores=Ts, fig=fig, c='r')
 
 ```
