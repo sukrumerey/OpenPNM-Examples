@@ -21,7 +21,7 @@ Next we'll add boundary pores to two sides of the network, to better illustrate 
 Now let's use ```plot_coordinates``` to plot the pore centers in a 3D plot, starting with the internal pores:
 
 ``` python
->>> Ps = pn.pores('internal')
+>>> Ps = net.pores('internal')
 >>> fig = op.Network.tools.plot_coordinates(network=net, pores=Ps, c='b')
 
 ```
@@ -47,3 +47,7 @@ Next, let's add lines to the above plot indicating the throat connections. Again
 ```
 
 ![](https://i.imgur.com/cgAIw6O.png)
+
+These two methods are meant for quick and rough visualizations.  If you required pretty and fancy 3D images, you should use Paraview!
+
+![](https://i.imgur.com/uSBVFi9.png)
