@@ -39,7 +39,7 @@ Note that the above call to ```plot_coordinates``` returns a figure handle ```fi
 Next, let's add lines to the above plot indicating the throat connections. Again, by reusing the ```fig``` object we can overlay more information:
 
 ``` python
->>> Ts = net.throats('internal')
+>>> Ts = net.throats('boundary', mode='not')
 >>> fig = op.Network.tools.plot_connections(network=net, pores=Ts, fig=fig, c='b')
 >>> Ts = net.throats('*boundary')
 >>> fig = op.Network.tools.plot_connections(network=net, pores=Ts, fig=fig, c='r')
