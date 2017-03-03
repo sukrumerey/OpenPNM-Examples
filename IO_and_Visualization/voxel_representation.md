@@ -42,7 +42,7 @@ To avoid the issue of missing features due to lack of resolution, its easy to sp
 
 ### Changing Pore and Throat Shape
 
-The function accepts two arguments to control the shape of the pores and throats.  They can either spheres and cylinders (the default) or you can specify cubes and cuboids.  This is done as follows:
+The function accepts two arguments to control the shape of the pores and throats, ```pshape``` and ```tshape```.  They can either ```sphere``` and ```cylinder``` (the default) or you can specify ```cube``` and ```cuboid```:
 
 ``` python
 >>> im = op.Utilities.misc.generate_voxel_image(net, pshape='cube', tshape='cuboid')
