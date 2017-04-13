@@ -2,7 +2,7 @@
 
 OpenPNM has the ability to load networks generated in MATLAB, saved as a specially formatted \*.mat file.
 
-> **NOTE:** OpenPNM has several more general ways to import networks from outside sources.  The ``MatFile`` class in the **Network** module was created very early in the OpenPNM development, so is mainly kept for legacy reasons.  The preferred format is to import from a CSV file.  Details of how to format the CSV file can be found in the documentation for that class which is found in ``OpenPNM.Utilities.IO.CSV``.  
+> **NOTE:** This approach is essentially deprecated!  OpenPNM has several more general ways to import networks from outside sources.  The ``MatFile`` class in the **Network** module was created very early in the OpenPNM development, so is mainly kept for legacy reasons.  The preferred format is to import from a CSV file.  Details of how to format the CSV file can be found in the documentation for that class which is found in ``OpenPNM.Utilities.IO.CSV``.  The ``OpenPNM.Utilities.IO`` module also an alternative MatLab import class that is more consistent with the other IO options.  Basically, don't use the following example unless you really need to.  
 
 ## MAT File Format
 
@@ -32,7 +32,16 @@ Once you have correctly formatted a \*.mat file, it can be loaded with the follo
 >>> pn = OpenPNM.Network.MatFile(filename=fname)
 >>> # This class also create a geometry object and attaches it to the network
 >>> geom_name = pn.geometries()[0]
->>> geom = pn.geometries(geom_name)
+>>> geom = pn.geometries(geom_name)[0]
+>>> # Inspect geom
+>>> print(geom.props())
+------------------------------------------------------------
+1       : pore.area
+2       : pore.diameter
+3       : pore.volume
+4       : throat.area
+5       : throat.diameter
+------------------------------------------------------------
 
 ```
 
@@ -40,7 +49,7 @@ Of course you store it any folder you wish, so long as you give the correct path
 
 ## Additional Pore and Throat Properties
 
-Additional properties and labels can be added to the network as long as they are arrays of the correct length. For example, if you saved the \*.mat file with the variable `pshape` that was an Npx1 float array, you could include it in your import as follows:
+Additional properties and labels can be added to the network as long as they are arrays of the correct length. For example, if you saved the \*.mat file with the variable `pshape` that was an Np x 1 float array, you could include it in your import as follows:
 
 ``` python
 >>> pn = OpenPNM.Network.MatFile(filename=fname, xtra_pore_data='shape')
