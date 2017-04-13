@@ -27,19 +27,19 @@ The following few lines are sufficient to import a network stored in a CSV file:
 >>> pn = op.Utilities.IO.CSV.load(fname)
 >>> print(pn.props())
 ------------------------------------------------------------
-1       : pore.area
-2       : pore.coords
-3       : pore.diameter
-4       : pore.index
-5       : pore.seed
-6       : pore.volume
-7       : throat.area
-8       : throat.conns
-9       : throat.diameter
-10      : throat.length
-11      : throat.seed
-12      : throat.surface_area
-13      : throat.volume
+1 : pore.area
+2 : pore.coords
+3 : pore.diameter
+4 : pore.index
+5 : pore.seed
+6 : pore.volume
+7 : throat.area
+8 : throat.conns
+9 : throat.diameter
+10 : throat.length
+11 : throat.seed
+12 : throat.surface_area
+13 : throat.volume
 ------------------------------------------------------------
 
 ```
@@ -50,24 +50,24 @@ There is one *Gotcha* to be aware of.  All of the import methods dump all the da
 >>> geom = op.Utilities.IO.CSV.split_geometry(pn)
 >>> print(net.props())
 ------------------------------------------------------------
-1       : pore.coords
-2       : pore.index
-3       : throat.conns
+1 : pore.coords
+2 : pore.index
+3 : throat.conns
 ------------------------------------------------------------
 
 >>> print(geom.props())
 ------------------------------------------------------------
-1       : pore.area
-2       : pore.diameter
-3       : pore.index
-4       : pore.seed
-5       : pore.volume
-6       : throat.area
-7       : throat.diameter
-8       : throat.length
-9       : throat.seed
-10      : throat.surface_area
-11      : throat.volume
+1 : pore.area
+2 : pore.diameter
+3 : pore.index
+4 : pore.seed
+5 : pore.volume
+6 : throat.area
+7 : throat.diameter
+8 : throat.length
+9 : throat.seed
+10 : throat.surface_area
+11 : throat.volume
 ------------------------------------------------------------
 
 ```

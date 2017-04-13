@@ -36,11 +36,11 @@ Once you have correctly formatted a \*.mat file, it can be loaded with the follo
 >>> # Inspect geom
 >>> print(geom.props())
 ------------------------------------------------------------
-1       : pore.area
-2       : pore.diameter
-3       : pore.volume
-4       : throat.area
-5       : throat.diameter
+1 : pore.area
+2 : pore.diameter
+3 : pore.volume
+4 : throat.area
+5 : throat.diameter
 ------------------------------------------------------------
 
 ```
