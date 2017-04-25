@@ -25,7 +25,7 @@ Pore data plotted with spheres radius proportional to pore diameter and sphere c
 
 ## Plot the throat data
 
-To visualize the throat data (like their diameters or the molar flow rates) we need to set up the following filters in Paraview. First, use the Shrink filter and set it up to 1. Then, the cell data needs to be transposed to the data point with CellDatatoPointdata filter. Then extract the surface with the filter ExtractSurface. Finally, the data may be plotted as tube by using the Tube filter. As previously for the pore data, either the Tube radius or colour can be linked to throat data.
+To visualize the throat data (like their diameters or the molar flow rates) we need to set up the following filters in Paraview. First, use the Shrink filter and set it up to 1 (Before making Shrink filter choose net.vtp not Glyph1). Then, the cell data needs to be transposed to the data point with CellDatatoPointdata filter. Then extract the surface with the filter ExtractSurface. Finally, the data may be plotted as tube by using the Tube filter. As previously for the pore data, either the Tube radius or colour can be linked to throat data.
 
 Throat data plotted with tubes radius proportional to throat diameter and tubes colour linked to the throat mole rate:
 
