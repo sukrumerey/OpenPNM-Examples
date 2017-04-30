@@ -126,4 +126,4 @@ The hard way to calculate K is the determine each of the values in Darcy's law m
 
 ```
 
-Using this approach the K values is 4.7 mD, which is essentially identical to the value found using ```calc_eff_permeability```.
+Using this approach the K values is 4.7 D, which is essentially identical to the value found using ```calc_eff_permeability```.
